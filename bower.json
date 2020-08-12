@@ -1,0 +1,20 @@
+{
+  "name": "IssueTracker.MVC",
+  "homepage": "https://github.com/MJDeveloping/Issue-Tracker",
+  "authors": [
+    "MJDeveloping <63269417+MJDeveloping@users.noreply.github.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.5.2"
+  }
+}

@@ -1,54 +1,14 @@
-﻿@model IssueTracker.MVC.Models.IssueModel
+﻿@model IssueTracker.MVC.Models.IssueModel 
+@{ ViewData["Title"] = "Details"; }
 
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h2>Details</h2>
-
-<div>
-    <h4>IssueModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AuthorUserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AuthorUserName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PostDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PostDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsOpen)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsOpen)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IssueId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div id="pageContainer" class="container-fluid">    
+        <partial name="PartialViews/_IssueHeader" /> <!--Partial Header-->    
+    <div>
+        <div>
+            @Model.AuthorUserName commented @Model.PostDate
+        </div>
+        <div>
+            @Model.Comment
+        </div>
+    </div>
 </div>
