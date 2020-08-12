@@ -1,23 +1,17 @@
-﻿@model IssueTracker.MVC.Models.IssueModel
+﻿@model IssueTracker.MVC.Models.Issue
 
-@{
-    ViewData["Title"] = "Edit";
-}
-
-<h2>Edit</h2>
-
-<h4>IssueModel</h4>
+<h4>Issue</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IssueId" />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="AuthorUserName" />
+            <input type="hidden" asp-for="PostDate" />
+            <input type="hidden" asp-for="IsOpen" />
+            
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -28,25 +22,9 @@
                 <input asp-for="Comment" class="form-control" />
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="AuthorUserName" class="control-label"></label>
-                <input asp-for="AuthorUserName" class="form-control" />
-                <span asp-validation-for="AuthorUserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PostDate" class="control-label"></label>
-                <input asp-for="PostDate" class="form-control" />
-                <span asp-validation-for="PostDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsOpen" /> @Html.DisplayNameFor(model => model.IsOpen)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-block btn-primary" />
             </div>
         </form>
     </div>
@@ -56,6 +34,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -135,5 +135,72 @@ body {
     background-color: #d73a49 !important;
 }
 
+.timeline-comment-header {
+    display: flex;
+    align-items: center;
+    padding-right: 16px;
+    padding-left: 16px;
+    color: #586069;
+    flex-direction: row-reverse;
+    background-color: #f6f8fa;
+    border-bottom: 1px solid #d1d5da;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.timeline-comment, .timeline-comment-header {
+    border-color: #e1e4e8;
+}
+.timeline-comment.current-user .timeline-comment-header {
+    background-color: #f1f8ff;
+    border-bottom-color: #c0d3eb;
+}
+.timeline-comment {
+    position: relative;
+    color: #24292e;
+    background-color: #fff;
+    border: 1px solid #d1d5da;
+    border-radius: 6px;
+}
+
+.timeline-comment-actions {
+    float: right;
+    margin-left: 8px;
+}
+
+.timeline-comment-header-text {
+    min-width: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 1px;
+    flex: 1 1 auto;
+}
+
+.text-normal {
+    font-weight: 400 !important;
+}
+
+.f5 {
+    font-size: 14px !important;
+}
+
+.comment-body {
+    width: 100%;
+    padding: 15px;
+    overflow: visible;
+    font-size: 14px;
+}
+/*
+    My Style
+*/
+
+.header-divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 1px;
+    width: 100%;
+    border-top: 1px solid gray;
+}
+
 
 

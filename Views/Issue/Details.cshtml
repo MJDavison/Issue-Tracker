@@ -1,14 +1,7 @@
-﻿@model IssueTracker.MVC.Models.IssueModel 
+﻿@model IssueTracker.MVC.Models.Issue 
 @{ ViewData["Title"] = "Details"; }
 
 <div id="pageContainer" class="container-fluid">    
         <partial name="PartialViews/_IssueHeader" /> <!--Partial Header-->    
-    <div>
-        <div>
-            @Model.AuthorUserName commented @Model.PostDate
-        </div>
-        <div>
-            @Model.Comment
-        </div>
-    </div>
+        <partial name="PartialViews/_IssueContext"/>
 </div>

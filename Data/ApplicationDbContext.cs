@@ -17,13 +17,13 @@ namespace IssueTracker.MVC.Data
             : base(options)
         {
         }
-        public DbSet<IssueModel> issues;
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             
             base.OnModelCreating(builder);
 
-            builder.Entity<IssueModel>()
+            builder.Entity<Issue>()
                 .HasKey(x => x.IssueId);               
                                
 
@@ -58,6 +58,6 @@ namespace IssueTracker.MVC.Data
                 entity.ToTable("UserTokens");
             });
         }
-        public DbSet<IssueTracker.MVC.Models.IssueModel> IssueModel { get; set; }
+        public DbSet<Issue> Issues { get; set; }
     }
 }

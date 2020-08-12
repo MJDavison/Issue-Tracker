@@ -1,0 +1,10 @@
+﻿@model IssueTracker.MVC.Models.Issue
+
+<div>
+    <div style="padding-top:8px; padding-bottom:8px; background-color:orange">
+        <span><strong>@Model.AuthorUserName</strong></span> <span style="color:#586069">commented @Html.Display("PostDate", Model.PostDate)</span>
+    </div>
+    <div style="background-color:green; padding:15px">
+        @Model.Comment
+    </div>
+</div>

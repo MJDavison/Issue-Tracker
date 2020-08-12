@@ -22,7 +22,8 @@ namespace IssueTracker.MVC.Controllers
         // GET: Issue
         public async Task<IActionResult> Index()
         {
-            return View(await _context.IssueModel.ToListAsync());
+
+            return View(await _context.Issues.ToListAsync());
         }
 
         // GET: Issue/Details/5
@@ -33,7 +34,7 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
-            var issueModel = await _context.IssueModel
+            var issueModel = await _context.Issues
                 .FirstOrDefaultAsync(m => m.IssueId == id);
             if (issueModel == null)
             {
@@ -54,7 +55,7 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] IssueModel issueModel)
+        public async Task<IActionResult> Create([Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Issue issueModel)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +74,7 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
-            var issueModel = await _context.IssueModel.FindAsync(id);
+            var issueModel = await _context.Issues.FindAsync(id);
             if (issueModel == null)
             {
                 return NotFound();
@@ -86,7 +87,7 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] IssueModel issueModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Issue issueModel)
         {
             if (id != issueModel.IssueId)
             {
@@ -124,7 +125,7 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
-            var issueModel = await _context.IssueModel
+            var issueModel = await _context.Issues
                 .FirstOrDefaultAsync(m => m.IssueId == id);
             if (issueModel == null)
             {
@@ -139,15 +140,15 @@ namespace IssueTracker.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var issueModel = await _context.IssueModel.FindAsync(id);
-            _context.IssueModel.Remove(issueModel);
+            var issueModel = await _context.Issues.FindAsync(id);
+            _context.Issues.Remove(issueModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool IssueModelExists(int id)
         {
-            return _context.IssueModel.Any(e => e.IssueId == id);
+            return _context.Issues.Any(e => e.IssueId == id);
         }
     }
 }

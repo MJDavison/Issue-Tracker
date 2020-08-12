@@ -74,7 +74,7 @@ namespace IssueTracker.MVC.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("IssueTracker.MVC.Models.IssueModel", b =>
+            modelBuilder.Entity("IssueTracker.MVC.Models.Issue", b =>
                 {
                     b.Property<int>("IssueId")
                         .ValueGeneratedOnAdd()
@@ -97,7 +97,7 @@ namespace IssueTracker.MVC.Migrations
 
                     b.HasKey("IssueId");
 
-                    b.ToTable("IssueModel");
+                    b.ToTable("Issues");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

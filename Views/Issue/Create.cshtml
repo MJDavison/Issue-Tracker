@@ -1,4 +1,4 @@
-﻿@model IssueTracker.MVC.Models.IssueModel
+﻿@model IssueTracker.MVC.Models.Issue
 @inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
 
 @{
@@ -7,7 +7,7 @@
 
 <h2>Create</h2>
 
-<h4>IssueModel</h4>
+<h4>Issue</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,10 +24,14 @@
                 <input asp-for="Comment" class="form-control" />
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
-            @Html.Hidden("UserID", UserManager.GetUserId(User))
-            @Html.Hidden("AuthorUsername", User.Identity.Name)
-            @Html.Hidden("PostDate", DateTime.UtcNow)
-            @Html.Hidden("IsOpen", true)
+            
+            <div class="form-group">  
+                
+                @Html.Hidden("UserID", UserManager.GetUserId(User))
+                @Html.Hidden("AuthorUsername", User.Identity.Name)
+                @Html.Hidden("PostDate", DateTime.UtcNow)
+                @Html.Hidden("IsOpen", true)
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
