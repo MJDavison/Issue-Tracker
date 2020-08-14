@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IssueTracker.MVC.Data;
 using IssueTracker.MVC.Models;
+using System.Collections;
 
 namespace IssueTracker.MVC.Controllers
 {
@@ -18,16 +19,63 @@ namespace IssueTracker.MVC.Controllers
         {
             _context = context;
         }
+        public bool IssueStatus()
+        {
+            string query = "";
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["status"]))
+                query = HttpContext.Request.Query["status"].ToString();
 
+            switch (query)
+            {
+                case "open":
+                    return true;
+                case "closed":
+                    return false;
+                default:
+                    return true;
+            }            
+        }
+
+        
         // GET: Issue
         public async Task<IActionResult> Index()
         {
 
+            bool isOpen = IssueStatus();
+            List<Issue> openIssues = await _context.Issues.Where(x => x.IsOpen).ToListAsync();
+            List<Issue> closedIssues = await _context.Issues.Where(x => x.IsOpen == false).ToListAsync();
+            switch (isOpen)
+            {
+                case true:
+                    return View(openIssues);
+                case false:
+                    return View(closedIssues);
+                
+            }
             return View(await _context.Issues.ToListAsync());
         }
 
+        public async Task<IActionResult> UpdateIssueStatus(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var issueModel = await _context.Issues.FindAsync(id);
+            if (issueModel == null)
+            {
+                return NotFound();
+            }
+            return View(issueModel);
+
+
+
+        }
+
+
         // GET: Issue/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Discussion(int? id)
         {
             if (id == null)
             {
@@ -41,6 +89,40 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
+            
+
+            return View(issueModel);
+        }
+        // POST: Issue/Details/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Discussion(int id, [Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Issue issueModel)
+        {
+            if (id != issueModel.IssueId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(issueModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!IssueModelExists(issueModel.IssueId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Discussion");
+            }
             return View(issueModel);
         }
 

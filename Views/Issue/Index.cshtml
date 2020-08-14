@@ -12,6 +12,10 @@
 <div class="card-body">
     <table class="table">       
         <tbody>
+            <tr>
+                <td><a class="nav-link text-dark" asp-controller="Issue" asp-action="Index" asp-route-status="open">Open Issues</a> </td>
+                <td><a class="nav-link text-dark" asp-controller="Issue" asp-action="Index" asp-route-status="closed">Closed Issues</a> </td>
+            </tr>
             @foreach (var item in Model)
             {
             <tr>
@@ -27,7 +31,7 @@
                     }
                 </td>                
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.IssueId">
+                    <a asp-action="Discussion" asp-route-id="@item.IssueId">
                         @Html.DisplayFor(modelItem => item.Title) <br />
                         <span>Opened @Html.DisplayFor(modelItem => item.PostDate) by @Html.DisplayFor(modelItem => item.AuthorUserName)</span>
                     </a>                                                       
