@@ -1,17 +1,14 @@
-﻿@page
-@model LoginModel
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/signin.css" />
+﻿@model IssueTracker.MVC.Views.Account.LoginModel
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/signin.css" />
 @{
     ViewData["Title"] = "Login";
     Layout = null;
 }
 
-<title>@ViewData["Title"]</title>
-
 <body class="text-center">
     <div id="i4c-draggable-container" style="position: fixed; z-index: 1499; width: 0px; height: 0px;"><div data-reactroot="" class="resolved" style="all: initial;"></div></div>
-    
+
     <form class="form-signin" method="post">
         <img class="mb-4" src="~/images/logo.png" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
@@ -44,14 +41,10 @@
                 <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a> as a new user
             </p>
             <p>
-                Login as a <a asp-controller="Account" asp-action="Demo_Login">Demo User</a>
+                Login as a <a asp-controller="Account" asp-action="DemoUsers">Demo User</a>
             </p>
         </div>
     </form>
     <div id="i4c-dialogs-container"></div>
 
 </body>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

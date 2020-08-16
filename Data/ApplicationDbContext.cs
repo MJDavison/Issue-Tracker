@@ -58,6 +58,6 @@ namespace IssueTracker.MVC.Data
                 entity.ToTable("UserTokens");
             });
         }
-        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Issue> Issues { get; set; }        
     }
 }

@@ -1,0 +1,85 @@
+﻿@model IssueTracker.MVC.Models.DemoUser
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/signin.css" />
+    <link rel="stylesheet" href="~/css/Main.css" />
+    @{
+        ViewData["Title"] = "Demo_Login";
+        Layout = null;
+    }
+
+
+    <body class="text-center">
+        <div id="i4c-draggable-container" style="position: fixed; z-index: 1499; width: 0px; height: 0px;"><div data-reactroot="" class="resolved" style="all: initial;"></div></div>
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <span class="login100-form-title">
+                        <img class="mb-4" src="~/images/logo.png" alt="" width="72" height="72">
+                        Please sign in
+                    </span>
+
+                    <div class="container">
+                        <form id="frmDemo" action="/Account/DemoUser">
+                            <div class="form-group row">
+                                <div class="col-sm">
+                                    <a asp-controller="Account" asp-action="DemoUserAsync" asp-route-username="DemoAdmin">                                        
+                                        <img src="~/images/Avatars/Admin.svg" style="height:100px">
+                                        <br />
+                                        Admin
+                                        </a>
+                                </div>
+                                <div class="col-sm">
+                                    <a asp-controller="Account" asp-action="DemoUserAsync" asp-route-username="DemoPM">
+                                        <img src="~/images/Avatars/ProjectManager.svg" style="height:100px">
+                                        <br />
+                                        Project Manager
+                                        </a>
+</div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm">
+                                    <a asp-controller="Account" asp-action="DemoUserAsync" asp-route-username="DemoDev">
+                                        <img src="~/images/Avatars/Developer.svg" style="height:100px">
+                                        <br />
+                                        Developer
+                                        </a>
+</div>
+                                <div class="col-sm">
+                                    <a asp-controller="Account" asp-action="DemoUserAsync" asp-route-username="DemoSubmitter">
+                                        <img src="~/images/Avatars/Submitter.svg" style="height:100px">
+                                        <br />
+                                        Submitter
+                                        </a>
+</div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="i4c-dialogs-container"></div>
+
+    </body>
+
+    <script src="/Scripts/LoginCustoms/jquery-3.2.1.min.js"></script>
+    <script src="/Scripts/LoginCustoms/animsition.min.js"></script>
+    <script src="/Scripts/LoginCustoms/popper.js"></script>
+    <script src="/Scripts/LoginCustoms/bootstrap.min.js"></script>
+    <script src="/Scripts/LoginCustoms/select2.min.js"></script>
+    <script src="/Scripts/LoginCustoms/moment.min.js"></script>
+    <script src="/Scripts/LoginCustoms/daterangepicker.js"></script>
+    <script src="/Scripts/LoginCustoms/countdowntime.js"></script>
+    <script src="/Scripts/LoginCustoms/main.js"></script>
+
+
+    <script>
+        function SubmitDemo(e) {
+            $('#DemoEmail').val(e);
+            $('#frmDemo').submit();
+        }
+    </script>
