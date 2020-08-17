@@ -41,11 +41,11 @@ namespace IssueTracker.MVC.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Demo_Login()
+        public IActionResult Demo_Login()
         {
             return View();
         }
-        
+
         public async Task<IActionResult> DemoUserAsync()
         {
             string query = IssueStatus();

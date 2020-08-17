@@ -4,14 +4,16 @@ using IssueTracker.MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IssueTracker.MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200816213148_Added Project Table")]
+    partial class AddedProjectTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,8 +56,6 @@ namespace IssueTracker.MVC.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("PrimaryRoleId");
-
                     b.Property<int?>("ProjectId");
 
                     b.Property<string>("SecurityStamp");
@@ -74,8 +74,6 @@ namespace IssueTracker.MVC.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("PrimaryRoleId");
 
                     b.HasIndex("ProjectId");
 
@@ -132,8 +130,6 @@ namespace IssueTracker.MVC.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -144,8 +140,6 @@ namespace IssueTracker.MVC.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -243,10 +237,6 @@ namespace IssueTracker.MVC.Migrations
 
             modelBuilder.Entity("IssueTracker.MVC.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "PrimaryRole")
-                        .WithMany()
-                        .HasForeignKey("PrimaryRoleId");
-
                     b.HasOne("IssueTracker.MVC.Models.Project")
                         .WithMany("Personnel")
                         .HasForeignKey("ProjectId");
@@ -257,13 +247,6 @@ namespace IssueTracker.MVC.Migrations
                     b.HasOne("IssueTracker.MVC.Models.Project")
                         .WithMany("Issues")
                         .HasForeignKey("ProjectId");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.HasOne("IssueTracker.MVC.Models.ApplicationUser")
-                        .WithMany("Roles")
-                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

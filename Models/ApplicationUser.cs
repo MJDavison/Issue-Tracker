@@ -9,6 +9,8 @@ namespace IssueTracker.MVC.Models
     public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
-        public string LastName { get; set; }        
+        public string LastName { get; set; }
+        public IdentityRole PrimaryRole { get; set; }
+        public List<IdentityRole> Roles { get; set; }
     }
 }

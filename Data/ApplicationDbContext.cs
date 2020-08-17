@@ -59,5 +59,6 @@ namespace IssueTracker.MVC.Data
             });
         }
         public DbSet<Issue> Issues { get; set; }        
+        public DbSet<IssueTracker.MVC.Models.Project> Project { get; set; }
     }
 }

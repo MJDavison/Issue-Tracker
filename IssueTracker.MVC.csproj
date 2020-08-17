@@ -2,7 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>aspnet-IssueTracker.MVC-B48AD833-43CE-45E2-9B20-45BEFE7ECFD5</UserSecretsId>
+    <UserSecretsId>aspnet-IssueTracker.MVC-B48AD833-43CE-45E2-9B20-45BEFE7ECFD5</UserSecretsId>    
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
