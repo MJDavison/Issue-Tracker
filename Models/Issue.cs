@@ -10,6 +10,8 @@ namespace IssueTracker.MVC.Models
 {
     public class Issue
     {
+        [Required]
+        public int ProjectId { get; set; } //Id of the project this belongs too
         [Required]        
         public int IssueId { get; set; }
         

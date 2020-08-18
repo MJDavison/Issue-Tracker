@@ -7,16 +7,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IssueTracker.MVC.Data;
 using IssueTracker.MVC.Models;
+using IssueTracker.MVC.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace IssueTracker.MVC.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        readonly ApplicationDbContext _context;
+        readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+        }
+
+        public async Task<Project> FillLists(Project project)
+        {
+            project.Personnel.AllPersonnel = await _context.Users.ToListAsync();
+            project.Personnel.Admin = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Admin.ToString());
+            project.Personnel.ProjectManager = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.ProjectManager.ToString());
+            project.Personnel.Developer = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Developer.ToString());
+            project.Personnel.Submitter = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Submitter.ToString());
+
+            project.Issues = await _context.Issues.Where(i => i.ProjectId == project.ProjectId).ToListAsync();
+
+            return project;
         }
 
         // GET: Projects
@@ -39,6 +56,9 @@ namespace IssueTracker.MVC.Controllers
             {
                 return NotFound();
             }
+
+
+            project = await FillLists(project);
 
             return View(project);
         }
@@ -150,10 +170,27 @@ namespace IssueTracker.MVC.Controllers
             return _context.Project.Any(e => e.ProjectId == id);
         }
 
-        public IActionResult ManageUsers(int id)
+        public async Task<IActionResult> ManageUsers(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            return View();
+            var project = await _context.Project
+                .FirstOrDefaultAsync(m => m.ProjectId == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+
+            project = await FillLists(project);
+
+
+
+            return View(project);
         }
+        
     }
 }

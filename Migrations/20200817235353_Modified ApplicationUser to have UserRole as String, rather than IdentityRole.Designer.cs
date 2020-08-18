@@ -4,14 +4,16 @@ using IssueTracker.MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IssueTracker.MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200817235353_Modified ApplicationUser to have UserRole as String, rather than IdentityRole")]
+    partial class ModifiedApplicationUsertohaveUserRoleasStringratherthanIdentityRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,8 +93,6 @@ namespace IssueTracker.MVC.Migrations
                     b.Property<bool>("IsOpen");
 
                     b.Property<DateTime>("PostDate");
-
-                    b.Property<int>("ProjectId");
 
                     b.Property<string>("Title")
                         .IsRequired();

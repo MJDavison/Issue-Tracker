@@ -10,7 +10,7 @@ namespace IssueTracker.MVC.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public IdentityRole PrimaryRole { get; set; }
-        public List<IdentityRole> Roles { get; set; }
+        public string UserRole { get; set; }
+        
     }
 }

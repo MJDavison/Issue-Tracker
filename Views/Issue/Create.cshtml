@@ -1,6 +1,6 @@
 ﻿@model IssueTracker.MVC.Models.Issue
 @inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
-
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Create";
 }
@@ -26,7 +26,17 @@
             </div>
             
             <div class="form-group">  
-                
+                @{ 
+                    int projectId = 0;
+                    if (!String.IsNullOrEmpty(Context.Request.Query["project-id"])) {
+                        projectId = Int32.Parse(Context.Request.Query["project-id"].ToString());
+                    }
+
+
+
+
+                }
+                @Html.Hidden("ProjectId", projectId)
                 @Html.Hidden("UserID", UserManager.GetUserId(User))
                 @Html.Hidden("AuthorUsername", User.Identity.Name)
                 @Html.Hidden("PostDate", DateTime.UtcNow)

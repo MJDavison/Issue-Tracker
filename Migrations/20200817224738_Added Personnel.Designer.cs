@@ -4,14 +4,16 @@ using IssueTracker.MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IssueTracker.MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200817224738_Added Personnel")]
+    partial class AddedPersonnel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +63,7 @@ namespace IssueTracker.MVC.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("UserRole");
+                    b.Property<string>("UserRoleId");
 
                     b.HasKey("Id");
 
@@ -72,6 +74,8 @@ namespace IssueTracker.MVC.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
                 });
@@ -92,8 +96,6 @@ namespace IssueTracker.MVC.Migrations
 
                     b.Property<DateTime>("PostDate");
 
-                    b.Property<int>("ProjectId");
-
                     b.Property<string>("Title")
                         .IsRequired();
 
@@ -104,17 +106,32 @@ namespace IssueTracker.MVC.Migrations
                     b.ToTable("Issues");
                 });
 
+            modelBuilder.Entity("IssueTracker.MVC.Models.Personnel", b =>
+                {
+                    b.Property<int>("PersonnelId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("PersonnelId");
+
+                    b.ToTable("Personnel");
+                });
+
             modelBuilder.Entity("IssueTracker.MVC.Models.Project", b =>
                 {
                     b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("PersonnelId");
+
                     b.Property<string>("ProjectDescription");
 
                     b.Property<string>("ProjectName");
 
                     b.HasKey("ProjectId");
+
+                    b.HasIndex("PersonnelId");
 
                     b.ToTable("Project");
                 });
@@ -227,6 +244,20 @@ namespace IssueTracker.MVC.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens");
+                });
+
+            modelBuilder.Entity("IssueTracker.MVC.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId");
+                });
+
+            modelBuilder.Entity("IssueTracker.MVC.Models.Project", b =>
+                {
+                    b.HasOne("IssueTracker.MVC.Models.Personnel", "Personnel")
+                        .WithMany()
+                        .HasForeignKey("PersonnelId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

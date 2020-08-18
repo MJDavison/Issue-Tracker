@@ -4,45 +4,58 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Project</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectDescription)
-            </td>
-            <td>
-                <ul>
-                    <li>
-                        <a asp-action="ManageUsers" asp-route-id="@item.ProjectId">Manage Users</a>
-                    </li>
-                    <li>
-                        <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a>
-                    </li>
-                </ul>
-                
-                
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="card">
+    <div class="card-header">
+        <h4>Your Projects</h4>
+        <p>All the projects you have in the database</p>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProjectName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProjectDescription)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjectName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjectDescription)
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a asp-controller="Issue" asp-action="Create" asp-route-project-id="@item.ProjectId">Create Issue</a>
+                                </li>
+                                <li>
+                                    <a asp-action="ManageUsers" asp-route-id="@item.ProjectId">Manage Users</a>
+                                </li>
+                                <li>
+                                    <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a>
+                                </li>
+                            </ul>
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

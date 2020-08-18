@@ -137,13 +137,13 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Issue issueModel)
+        public async Task<IActionResult> Create([Bind("ProjectId,IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Issue issueModel)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(issueModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Projects", new { id = issueModel.ProjectId });
             }
             return View(issueModel);
         }

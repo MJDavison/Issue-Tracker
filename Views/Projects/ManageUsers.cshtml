@@ -1,53 +1,18 @@
 ﻿@model IssueTracker.MVC.Models.Project
-
 @{
     ViewData["Title"] = "ManageUsers";
 }
 
-<h2>ManageUsers</h2>
-
-<div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h2>
-                    Manage Project Users for: @Model.ProjectName                    
-                </h2>
-
-            </div>
-            <div class="col">
-                <h2>
-                    Selected Personnel
-                </h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var item in Model.Personnel)
-                        {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PrimaryRole.ToString())
-                            </td>                            
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <partial name="PartialViews/_ManageProjectUsers" />
+        </div>
+        <div class="col">
+            <partial name="PartialViews/_CurrentPersonnelOnProject"/>
         </div>
     </div>
-    
-    
 </div>
+
+<h2>ManageUsers</h2>
 

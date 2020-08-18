@@ -75,7 +75,7 @@ namespace IssueTracker.MVC.Data
                 if (user == null)
                 {
                     await userManager.CreateAsync(DemoPM, "123Pa$$word.");
-                    await userManager.AddToRoleAsync(DemoPM, Enums.Roles.Admin.ToString());
+                    await userManager.AddToRoleAsync(DemoPM, Enums.Roles.ProjectManager.ToString());
                 }
             }
 
@@ -85,7 +85,7 @@ namespace IssueTracker.MVC.Data
                 if (user == null)
                 {
                     await userManager.CreateAsync(DemoDev, "123Pa$$word.");
-                    await userManager.AddToRoleAsync(DemoDev, Enums.Roles.Admin.ToString());
+                    await userManager.AddToRoleAsync(DemoDev, Enums.Roles.Developer.ToString());
                 }
             }
 
@@ -95,7 +95,7 @@ namespace IssueTracker.MVC.Data
                 if (user == null)
                 {
                     await userManager.CreateAsync(DemoSubmitter, "123Pa$$word.");
-                    await userManager.AddToRoleAsync(DemoSubmitter, Enums.Roles.Admin.ToString());
+                    await userManager.AddToRoleAsync(DemoSubmitter, Enums.Roles.Submitter.ToString());
                 }
             }
         }
