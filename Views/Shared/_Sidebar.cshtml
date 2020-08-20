@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+    <div id="sidebar">
+        <div class="row no-gutters" style="vertical-align:central; padding-top:2em">
+            <div class="col-5">
+                <img id="avatarImg" class="rounded-circle" src="~/images/Avatars/Admin.svg">
+            </div>
+            <div class="col text-center text-uppercase" id="welcome-section">
+                <span>Welcome,</span>
+                <h6 class="text-center no-gutters" style="line-height:32px">
+                    @UserManager.GetUserName(User)
+                </h6>
+            </div>
+        </div>
+        <hr />
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+
+            <ul class="sidebar-nav">
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="material-icons">dashboard</i>
+                        <span class="nav-label"> Dashboard Home </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="#">
+                        <i class="material-icons">group_add</i>
+                        <span class="nav-label"> Manage Role Assignment </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="#">
+                        <i class="material-icons">group</i>
+                        <span class="nav-label"> Manage Project Users </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="#">
+                        <i class="material-icons">list</i>
+                        <span class="nav-label"> Ticket History Index </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Projects" asp-action="Index">
+                        <i class="material-icons">reorder</i>
+                        <span class="nav-label"> My Projects </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="#">
+                        <i class="material-icons">view_list</i>
+                        <span class="nav-label"> My Tickets </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Manage" asp-action="Index">
+                        <i class="material-icons">person</i>
+                        <span class="nav-label"> User Profile </span>
+                    </a>
+                </li>
+            </ul>
+        </div> <!-- /#sidebar-wrapper -->
+    </div>
