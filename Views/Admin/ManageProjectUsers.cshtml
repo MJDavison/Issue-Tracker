@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Project>
+@using IssueTracker.MVC.Models;
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "ManageProjectUsers";
+}
+
+@{ 
+    var Projects = Model.ToList();
+    var Project = Projects.FirstOrDefault();
+}
+<div>
+    <h4>1) Select 1 or more Projects</h4>
+    <select multiple="multiple"
+            asp-for="@Model.FirstOrDefault().ProjectId"
+            asp-items="@(new SelectList(Model.ToList(),"ProjectId","ProjectName"))">
+    </select>
+
+    <hr />
+
+    <h4>2) Select Users for the Project/s, no selection will remove Users from the selected Project/s</h4>
+    <select asp-items="@(new SelectList(Project.AvaliablePersonnel.Admin))"></select>
+    <select asp-items="@(new SelectList(Project.AvaliablePersonnel.ProjectManager))"></select>
+    <select multiple="multiple" asp-items="@(new SelectList(Project.AvaliablePersonnel.Developer))"></select>
+    <select multiple="multiple" asp-items="@(new SelectList(Project.AvaliablePersonnel.Submitter))"></select>
+</div>
+

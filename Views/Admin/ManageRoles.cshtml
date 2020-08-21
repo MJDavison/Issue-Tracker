@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ApplicationUser>
+@using IssueTracker.MVC.Models;
+@using IssueTracker.MVC.Data.Enums;
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "ManageRoles";
+}
+<div  style="padding-left:2%">
+    <h1>Manage User Roles</h1>
+    <div class="flex-container-h">
+
+        <div style="width:30%; padding-right:5%">
+            <h4>Select 1 or More Users</h4>
+            <select multiple="multiple" class="form-control"
+                    asp-items="@(new SelectList(Model.ToList(), "", ""))">
+            </select>
+            <hr />
+            <h4>Select the Role to assign</h4>
+            <select asp-items="@(Html.GetEnumSelectList<Roles>())">
+                <option>--Select Role/None--</option>
+            </select>
+        </div>
+        <div style="width:60%">
+
+            <div class="card">
+                <div class="card-header">
+                    <h4>Your Personnel</h4>
+                    <p>All the users in your database.</p>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(model => item.UserName)</td>
+                                    <td>@Html.DisplayFor(model => item.Email)</td>
+                                    <td>
+                                        @{
+                                            var userRoles = await UserManager.GetRolesAsync(item);
+                                            item.UserRole = userRoles.FirstOrDefault();
+                                        }
+                                        @Html.DisplayFor(model => item.UserRole)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

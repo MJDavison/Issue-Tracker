@@ -25,11 +25,11 @@ namespace IssueTracker.MVC.Controllers
 
         public async Task<Project> FillLists(Project project)
         {
-            project.Personnel.AllPersonnel = await _context.Users.ToListAsync();
-            project.Personnel.Admin = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Admin.ToString());
-            project.Personnel.ProjectManager = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.ProjectManager.ToString());
-            project.Personnel.Developer = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Developer.ToString());
-            project.Personnel.Submitter = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Submitter.ToString());
+            project.AvaliablePersonnel.AllPersonnel = await _context.Users.ToListAsync();
+            project.AvaliablePersonnel.Admin = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Admin.ToString());
+            project.AvaliablePersonnel.ProjectManager = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.ProjectManager.ToString());
+            project.AvaliablePersonnel.Developer = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Developer.ToString());
+            project.AvaliablePersonnel.Submitter = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Submitter.ToString());
 
             project.Issues = await _context.Issues.Where(i => i.ProjectId == project.ProjectId).ToListAsync();
 

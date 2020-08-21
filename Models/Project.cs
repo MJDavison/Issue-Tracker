@@ -14,7 +14,8 @@ namespace IssueTracker.MVC.Models
         [Display(Name = "Project Description")]
         public string ProjectDescription { get; set; }
 
-        public Personnel Personnel = new Personnel();
+        public Personnel AvaliablePersonnel = new Personnel();
+        public Personnel AssignedPersonnel = new Personnel();
         public List<Issue> Issues = new List<Issue>();        
     }
 
