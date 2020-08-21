@@ -19,6 +19,7 @@ namespace IssueTracker.MVC.Controllers
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            
         }
 
         public string IssueStatus()

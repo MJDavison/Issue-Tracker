@@ -1,4 +1,6 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿ 
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
@@ -97,7 +99,6 @@ html, body {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    
     background-color: #fff;
 }
 
@@ -214,12 +215,11 @@ html, body {
 .sidebar-top .role-icon {
     width: 35%;
     height: 100%;
-    background-color: #fff;
-    background-image: url('../images/Avatars 2/64x64/administrator_user.png');
-    background-size:64px 64px;
+    background-color: #fff;      
+    
+    background-size: 64px 64px;
     background-repeat: no-repeat;
     background-position: center;
-    
 }
 
 .sidebar-top .welcome-msg {
@@ -237,38 +237,38 @@ html, body {
     flex-direction: column;
 }
 
-.sidebar-nav-list{
-    position:relative;
-    top:0;
-    width:100%;
-    margin:0px;
-    padding:0px;
-    margin-top:8px;
-    list-style:none;
+.sidebar-nav-list {
+    position: relative;
+    top: 0;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 8px;
+    list-style: none;
 }
-    .sidebar-nav-list li{
-        
-        line-height:40px;
-        width:100%;
-    }
 
-        .sidebar-nav-list li a {
-            display: block;
-            text-decoration: none;
-            color: #999999;
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-            
-            .sidebar-nav-list li a:hover{
-                text-decoration:none;
-                color:#fff;
-                background:rgba(255,255,255,0.2);
-            }
+.sidebar-nav-list li {
+    line-height: 40px;
+    width: 100%;
+}
 
-            .sidebar-nav-list li a:active, .sidebar-nav-list li a:focus{
-                text-decoration:none;
-            }
+.sidebar-nav-list li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.sidebar-nav-list li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav-list li a:active, .sidebar-nav-list li a:focus {
+    text-decoration: none;
+}
 
 /* Extract Relevant
 
@@ -360,10 +360,12 @@ html, body {
 .timeline-comment, .timeline-comment-header {
     border-color: #e1e4e8;
 }
+
 .timeline-comment.current-user .timeline-comment-header {
     background-color: #f1f8ff;
     border-bottom-color: #c0d3eb;
 }
+
 .timeline-comment {
     position: relative;
     color: #24292e;
@@ -414,5 +416,4 @@ html, body {
 
 
 #welcome-section {
-   
 }

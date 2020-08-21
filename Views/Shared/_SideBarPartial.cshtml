@@ -1,10 +1,48 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using IssueTracker.MVC.Data.Enums
 @inject UserManager<ApplicationUser> UserManager
+
+
+<style>
+    div.role-icon {
+        @{
+            var user = await UserManager.GetUserAsync(User);
+            var role = await UserManager.GetRolesAsync(user);           
+            var icon = "";
+            string roleName = role[0];
+            if (roleName == Roles.Admin.ToString())
+            {
+                icon = "/images/Avatars2/64x64/administrator_user.png";
+            }
+            else if (roleName == Roles.ProjectManager.ToString())
+            {
+                icon = "/images/Avatars2/64x64/project_manager_user.png";
+            }
+            else if (roleName == Roles.Developer.ToString())
+            {
+                icon = "/images/Avatars2/64x64/developer_user.png";
+            }
+            else
+            {
+                icon = "/images/Avatars2/64x64/submitter_user.png";
+            }
+
+        }
+        
+        
+
+        background-image:url(@icon)
+    }
+</style>
 <div class="sidebar-top">
+    <div class="loggedIn">        
+    </div>
+
     <div class="role-icon"></div>
     <div class="welcome-msg">
         <span>Welcome,</span>
         <h6>@UserManager.GetUserName(User)</h6>
+        
     </div>
 </div>
 <div class="sidebar-bottom">
@@ -71,7 +109,7 @@
         </div>
         <hr />
 
-        
+
     <div id="sidebar-wrapper">
 
         <ul class="sidebar-nav">
@@ -119,6 +157,6 @@
                 </a>
             </li>
         </ul>
-    </div> 
+    </div>
 </div>
 -->

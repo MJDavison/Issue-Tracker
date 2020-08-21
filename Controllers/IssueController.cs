@@ -52,7 +52,7 @@ namespace IssueTracker.MVC.Controllers
                     return View(closedIssues);
                 
             }
-            return View(await _context.Issues.ToListAsync());
+            
         }
 
         public async Task<IActionResult> UpdateIssueStatus(int? id)
