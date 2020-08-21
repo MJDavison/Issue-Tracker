@@ -1,0 +1,5 @@
+﻿Role Avatars:
+	Project Manager: https://www.shareicon.net/user-tie-administrator-executive-118411
+	Submitter: https://www.shareicon.net/user-tie-administrator-manager-executive-118410
+	Administrator: https://www.shareicon.net/user-account-executive-administrator-manager-118422
+	Developer: https://www.shareicon.net/hat-cyber-undercover-spy-user-118407

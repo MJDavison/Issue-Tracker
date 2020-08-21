@@ -33,6 +33,14 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\images\Avatars 2\128x128\" />
+    <Folder Include="wwwroot\images\Avatars 2\64x64\" />
+    <Folder Include="wwwroot\images\Avatars 2\48x48\" />
+    <Folder Include="wwwroot\images\Avatars 2\32x32\" />
+    <Folder Include="wwwroot\images\Avatars 2\16x16\" />
+    <Folder Include="wwwroot\images\Avatars 2\12x12\" />
+    <Folder Include="wwwroot\images\Avatars 2\256x256\" />
+    <Folder Include="wwwroot\images\Avatars 2\512x512\" />
     <Folder Include="wwwroot\images\Avatars\" />
   </ItemGroup>
 
