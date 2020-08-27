@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using IssueTracker.MVC.Models;
@@ -11,21 +12,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IssueTracker.MVC.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<Personnel>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-        
+
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Project> Project { get; set; }                
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             
             base.OnModelCreating(builder);
 
-            builder.Entity<Issue>()
-                .HasKey(x => x.IssueId);               
-                               
+            builder.Entity<ProjectUser>()
+                 .HasKey(pu => new { pu.PersonnelId, pu.ProjectId});
+
+            builder.Entity<TicketUser>()
+                .HasKey(tu => new { tu.PersonnelId, tu.TicketId });
+
+            
+                
+           
 
             //Identity            
 
@@ -49,7 +60,7 @@ namespace IssueTracker.MVC.Data
             {
                 entity.ToTable("UserRoles");
             });
-            builder.Entity<ApplicationUser>(entity =>
+            builder.Entity<Personnel>(entity =>
             {
                 entity.ToTable("Users");
             });          
@@ -57,8 +68,10 @@ namespace IssueTracker.MVC.Data
             {
                 entity.ToTable("UserTokens");
             });
+
+            
+            
         }
-        public DbSet<Issue> Issues { get; set; }        
-        public DbSet<Project> Project { get; set; }
+        
     }
 }

@@ -12,10 +12,10 @@ namespace IssueTracker.MVC.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        readonly UserManager<ApplicationUser> userManager;
-        readonly SignInManager<ApplicationUser> signInManager;
+        readonly UserManager<Personnel> userManager;
+        readonly SignInManager<Personnel> signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<Personnel> userManager, SignInManager<Personnel> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -25,7 +25,7 @@ namespace IssueTracker.MVC.Controllers
         public string IssueStatus()
         {
             string query = "John Doe";
-            if (!String.IsNullOrEmpty(HttpContext.Request.Query["username"]))
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["username"]))
                 query = HttpContext.Request.Query["username"].ToString();
 
 
@@ -35,7 +35,7 @@ namespace IssueTracker.MVC.Controllers
         public async Task LoginDemoUser(string username)
         {
             string normalizedUsername = username.Normalize().ToUpper(); ;
-            ApplicationUser DemoUser = await userManager.FindByNameAsync(normalizedUsername);
+            Personnel DemoUser = await userManager.FindByNameAsync(normalizedUsername);
 
             await signInManager.SignInAsync(DemoUser, true);
             RedirectToAction("Index", "Home");

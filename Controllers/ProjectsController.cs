@@ -7,34 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IssueTracker.MVC.Data;
 using IssueTracker.MVC.Models;
-using IssueTracker.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using IssueTracker.MVC.Services;
+using IssueTracker.MVC.Services.Interfaces;
 
 namespace IssueTracker.MVC.Controllers
 {
     public class ProjectsController : Controller
     {
-        readonly ApplicationDbContext _context;
-        readonly UserManager<ApplicationUser> _userManager;
+        private readonly IProjectService _projectService;
+        private readonly IProjectPersonnelService _projectPersonnel;
+        private readonly ApplicationDbContext _context;
 
-        public ProjectsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly UserManager<Personnel> _userManager;
+
+        public ProjectsController(IProjectService projectService, IProjectPersonnelService projectPersonnel, ApplicationDbContext context, UserManager<Personnel> userManager)
         {
+            _projectService = projectService;
+            _projectPersonnel = projectPersonnel;
             _context = context;
             _userManager = userManager;
         }
 
-        public async Task<Project> FillLists(Project project)
-        {
-            project.AvaliablePersonnel.AllPersonnel = await _context.Users.ToListAsync();
-            project.AvaliablePersonnel.Admin = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Admin.ToString());
-            project.AvaliablePersonnel.ProjectManager = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.ProjectManager.ToString());
-            project.AvaliablePersonnel.Developer = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Developer.ToString());
-            project.AvaliablePersonnel.Submitter = await _userManager.GetUsersInRoleAsync(Data.Enums.Roles.Submitter.ToString());
 
-            project.Issues = await _context.Issues.Where(i => i.ProjectId == project.ProjectId).ToListAsync();
 
-            return project;
-        }
+
 
         // GET: Projects
         public async Task<IActionResult> Index()
@@ -51,21 +48,26 @@ namespace IssueTracker.MVC.Controllers
             }
 
             var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.ProjectId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            ViewBag.Tickets = _context.Tickets.Where(p => p.ProjectId == id).Include(p=>p.TicketUsers);
+
             if (project == null)
             {
                 return NotFound();
             }
 
 
-            project = await FillLists(project);
+            //project = await FillLists(project);
 
             return View(project);
         }
 
         // GET: Projects/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            var personnel = await _projectPersonnel.GetAll();
+            ViewData["PersonnelList"] = new SelectList(personnel, "Id", "UserName");
             return View();
         }
 
@@ -74,12 +76,12 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectId,ProjectName,ProjectDescription")] Project project)
+        public async Task<IActionResult> Create(Project project)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(project);
-                await _context.SaveChangesAsync();
+                await _projectService.Add(project);
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(project);
@@ -106,9 +108,11 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,ProjectDescription")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Project project)
         {
-            if (id != project.ProjectId)
+            
+            
+            if (id != project.Id)
             {
                 return NotFound();
             }
@@ -122,7 +126,7 @@ namespace IssueTracker.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectExists(project.ProjectId))
+                    if (!ProjectExists(project.Id))
                     {
                         return NotFound();
                     }
@@ -145,7 +149,7 @@ namespace IssueTracker.MVC.Controllers
             }
 
             var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.ProjectId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (project == null)
             {
                 return NotFound();
@@ -167,8 +171,11 @@ namespace IssueTracker.MVC.Controllers
 
         private bool ProjectExists(int id)
         {
-            return _context.Project.Any(e => e.ProjectId == id);
+            return _context.Project.Any(e => e.Id == id);
         }
+
+
+
 
         public async Task<IActionResult> ManageUsers(int? id)
         {
@@ -178,19 +185,52 @@ namespace IssueTracker.MVC.Controllers
             }
 
             var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.ProjectId == id);
+                .Include(p=>p.ProjectUsers)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (project == null)
             {
                 return NotFound();
             }
 
 
-            project = await FillLists(project);
-
+            //project = await FillLists(project);
+            var personnel = await _projectPersonnel.GetAll();
+            ViewData["PersonnelList"] = new SelectList(personnel, "Id", "UserName");
 
 
             return View(project);
         }
-        
+
+        public async Task<ActionResult> AddPersonnelToProject(int? id)
+        {
+            if(id == null)
+            {
+                BadRequest();
+            }
+            Project project = await _projectService.Get(id);
+            return PartialView();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPersonnelToProjectAsync(int? id, List<Personnel> ProjectUsers, Project project)
+        {
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            if(ProjectUsers.Count < 1)
+            {
+                return BadRequest();
+            }            
+
+            if (ModelState.IsValid)
+            {
+                await _projectService.Update(project);
+                return RedirectToAction("Index");
+            }
+            return View(project);
+        }
+
+
     }
 }

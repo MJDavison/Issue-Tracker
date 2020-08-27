@@ -20,14 +20,14 @@ namespace IssueTracker.MVC.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<Personnel> _signInManager;
+        private readonly UserManager<Personnel> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<Personnel> userManager,
+            SignInManager<Personnel> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -84,7 +84,7 @@ namespace IssueTracker.MVC.Areas.Identity.Pages.Account
             {
                 MailAddress address = new MailAddress(Input.Email);
                 string userName = address.User;
-                var user = new ApplicationUser
+                var user = new Personnel
                 {
                     UserName = userName,
                     Email = Input.Email,

@@ -9,10 +9,10 @@ namespace IssueTracker.MVC.Views.Account
 {
     public class DemoUser
     {
-        readonly SignInManager<ApplicationUser> _signInManager;
-        readonly UserManager<ApplicationUser> _userManager;
+        readonly SignInManager<Personnel> _signInManager;
+        readonly UserManager<Personnel> _userManager;
 
-        public DemoUser(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public DemoUser(SignInManager<Personnel> signInManager, UserManager<Personnel> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;

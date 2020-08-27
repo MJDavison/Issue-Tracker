@@ -1,0 +1,39 @@
+﻿@model IssueTracker.MVC.ViewModels.TicketViewModel
+@{ ViewData["Title"] = "Details"; }
+
+<div id="pageContainer" class="container-fluid">
+    <partial name="PartialViews/_IssueHeader" /> <!--Partial Header-->
+    <partial name="PartialViews/_IssueContext" />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Discussion">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Ticket.Id" />
+                <input type="hidden" asp-for="Ticket.TicketUsers" />                
+                <input type="hidden" asp-for="Ticket.PostDate" />
+                <input type="hidden" asp-for="Ticket.Title" />
+                <input type="hidden" asp-for="Ticket.Comment" />
+
+                @{ 
+                    if (Model.Ticket.IsSolved)
+                    {
+                        @Html.Hidden("IsOpen", false);
+                        <div class="form-group">
+                            <input type="submit" value="Close Issue" class="btn btn-block btn-primary" />
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.Hidden("IsOpen", true);
+                        <div class="form-group">
+                            <input type="submit" value="Open Issue" class="btn btn-block btn-primary" />
+                        </div>
+                    }
+                }                               
+                
+            </form>
+        </div>
+    </div>
+
+</div>

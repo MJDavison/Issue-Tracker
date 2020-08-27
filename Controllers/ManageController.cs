@@ -11,11 +11,11 @@ namespace IssueTracker.MVC.Controllers
 {
     public class ManageController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<Personnel> _userManager;
+        private readonly SignInManager<Personnel> _signInManager;
         private readonly ILogger<ManageController> _logger;
 
-        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<ManageController> logger)
+        public ManageController(UserManager<Personnel> userManager, SignInManager<Personnel> signInManager, ILogger<ManageController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -25,7 +25,7 @@ namespace IssueTracker.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Profile";
-            ApplicationUser user = await _userManager.GetUserAsync(User);
+            Personnel user = await _userManager.GetUserAsync(User);
             return View(user);
         }
     }

@@ -9,7 +9,7 @@ namespace IssueTracker.MVC.Data
 {
     public static class ContextSeed
     {
-        public static async Task SeedRolesAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Admin.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.ProjectManager.ToString()));
@@ -17,9 +17,9 @@ namespace IssueTracker.MVC.Data
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Submitter.ToString()));
         }
 
-        public static async Task SeedDefaultUsers(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedDefaultUsers(UserManager<Personnel> userManager)
         {
-            var DemoAdmin = new ApplicationUser
+            var DemoAdmin = new Personnel
             {
                 UserName = "DemoAdmin",
                 Email = "DemoAdmin@gmail.com",
@@ -29,7 +29,7 @@ namespace IssueTracker.MVC.Data
                 PhoneNumberConfirmed = true
             };
 
-            var DemoPM = new ApplicationUser
+            var DemoPM = new Personnel
             {
                 UserName = "DemoPM",
                 Email = "DemoPM@gmail.com",
@@ -39,7 +39,7 @@ namespace IssueTracker.MVC.Data
                 PhoneNumberConfirmed = true
             };
 
-            var DemoDev = new ApplicationUser
+            var DemoDev = new Personnel
             {
                 UserName = "DemoDev",
                 Email = "DemoDev@gmail.com",
@@ -49,7 +49,7 @@ namespace IssueTracker.MVC.Data
                 PhoneNumberConfirmed = true
             };
 
-            var DemoSubmitter = new ApplicationUser
+            var DemoSubmitter = new Personnel
             {
                 UserName = "DemoSubmitter",
                 Email = "DemoSubmitter@gmail.com",

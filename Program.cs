@@ -27,10 +27,10 @@ namespace IssueTracker.MVC
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var userManager = services.GetRequiredService<UserManager<Personnel>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await ContextSeed.SeedRolesAsync(userManager, roleManager);
-                    await ContextSeed.SeedDefaultUsers(userManager, roleManager);
+                    await ContextSeed.SeedRolesAsync(roleManager);
+                    await ContextSeed.SeedDefaultUsers(userManager);
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,4 @@
-﻿@inject SignInManager<IssueTracker.MVC.Models.ApplicationUser> SignInManager
+﻿@inject SignInManager<IssueTracker.MVC.Models.Personnel> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

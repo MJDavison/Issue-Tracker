@@ -1,6 +1,6 @@
-﻿@model IssueTracker.MVC.Models.Project
+﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
 @using IssueTracker.MVC.Models;
-@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+@inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
 <div class="card">
     <div class="card-header">
         <h2>
@@ -20,24 +20,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.AssignedPersonnel.AllPersonnel)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UserName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @{ 
-                                var userRoles = await UserManager.GetRolesAsync(item);
-                                item.UserRole = userRoles.FirstOrDefault();
-                            }
-                             @Html.DisplayFor(modelItem => item.UserRole)
-                        </td>
-                    </tr>
+                @{ foreach (var item in Model.Project.ProjectUsers) { 
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personnel.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personnel.Email)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Personnel.UserRole)
+                    </td>
+                </tr>
+                    }
                 }
+
             </tbody>
         </table>
     </div>

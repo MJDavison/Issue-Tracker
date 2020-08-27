@@ -1,5 +1,7 @@
-﻿@model IssueTracker.MVC.Models.Project
-
+﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
+@using IssueTracker.MVC.Models
+@inject IssueTracker.MVC.Data.ApplicationDbContext DBContext;
+@inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
 @{
     ViewData["Title"] = "Create";
 }
@@ -10,20 +12,20 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="projectcreationform">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ProjectName" class="control-label"></label>
-                <input asp-for="ProjectName" class="form-control" />
-                <span asp-validation-for="ProjectName" class="text-danger"></span>
+                <label asp-for="Project.Name" class="control-label"></label>
+                <input asp-for="Project.Name" class="form-control" />
+                <span asp-validation-for="Project.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProjectDescription" class="control-label"></label>
-                <input asp-for="ProjectDescription" class="form-control" />
-                <span asp-validation-for="ProjectDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <label asp-for="Project.Description" class="control-label"></label>
+                <input asp-for="Project.Description" class="form-control" />
+                <span asp-validation-for="Project.Description" class="text-danger"></span>
+            </div>            
+            <div class=" form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
     </div>

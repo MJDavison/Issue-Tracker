@@ -1,0 +1,55 @@
+﻿@model IssueTracker.MVC.ViewModels.TicketViewModel
+@inject IssueTracker.MVC.Data.ApplicationDbContext DBContext;
+@inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Ticket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="projectcreationform">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Ticket.Title" class="control-label"></label>
+                <input asp-for="Ticket.Title" class="form-control" />
+                <span asp-validation-for="Ticket.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ticket.Comment" class="control-label"></label>
+                <textarea asp-for="Ticket.Comment" class="form-control"><</textarea>
+                <span asp-validation-for="Ticket.Comment" class="text-danger"></span>
+            </div>
+            @for (var i = 0; i < 1; i++)
+            {
+        <div class="form-group">                                    
+            <input asp-for="Ticket.PostDate" type="hidden" value="@DateTime.Now" />
+            <input asp-for="Ticket.TicketUsers[i].PersonnelId" type="hidden" value="@UserManager.GetUserAsync(User).Result.Id"/>                       
+        </div>
+            }
+
+            <div class="form-group">
+
+                
+                @Html.Hidden("ProjectId", Context.Request.Query["project-id"])
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{ 
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

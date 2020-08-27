@@ -13,6 +13,9 @@ using IssueTracker.MVC.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IssueTracker.MVC.Models;
+using Microsoft.Extensions.Hosting;
+using IssueTracker.MVC.Services;
+using IssueTracker.MVC.Services.Interfaces;
 
 namespace IssueTracker.MVC
 {
@@ -39,13 +42,20 @@ namespace IssueTracker.MVC
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+            services.AddIdentity<Personnel, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IProjectPersonnelService, ProjectPersonnelService>();
+            services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<ITicketPersonnelService, TicketPersonnelService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -64,12 +74,24 @@ namespace IssueTracker.MVC
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    "default", "{controller=Home}/{action=Index}/{id?}");
+            });
+            /*
+             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+             */
+
+
         }
     }
 }

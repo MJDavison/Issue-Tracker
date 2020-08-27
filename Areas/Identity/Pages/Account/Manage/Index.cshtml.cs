@@ -14,13 +14,13 @@ namespace IssueTracker.MVC.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<Personnel> _userManager;
+        private readonly SignInManager<Personnel> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<Personnel> userManager,
+            SignInManager<Personnel> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;

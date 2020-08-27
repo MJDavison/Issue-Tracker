@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace IssueTracker.MVC.Models
 {
-    public sealed class Personnel
+    public class Personnel : IdentityUser
     {
-        public int PersonnelId { get; set; }
-        public IList<ApplicationUser> Admin = new List<ApplicationUser>();
-        public IList<ApplicationUser> ProjectManager = new List<ApplicationUser>();
-        public IList<ApplicationUser> Developer = new List<ApplicationUser>();
-        public IList<ApplicationUser> Submitter = new List<ApplicationUser>();
-        public IList<ApplicationUser> AllPersonnel = new List<ApplicationUser>();
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserRole { get; set; }
+
+        public List<ProjectUser> ProjectUsers { get; set; }
+        public List<TicketUser> TicketUsers { get; set; }
+
     }
 }
-    
-

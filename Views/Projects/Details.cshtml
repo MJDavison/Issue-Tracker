@@ -1,4 +1,4 @@
-﻿@model IssueTracker.MVC.Models.Project
+﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -8,19 +8,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2>Details for @Html.DisplayFor(model => model.ProjectName)</h2>
-                    <a asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a> |
+                    <h2>Details for @Html.DisplayFor(model => model.Project.Name)</h2>
+                    <a asp-action="Edit" asp-route-id="@Model.Project.Id">Edit</a> |
                     <a asp-action="Index">Back to List</a>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <label asp-for="ProjectName"></label> <br />
-                            @Html.DisplayFor(model => model.ProjectName)
+                            <label asp-for="Project.Name"></label> <br />
+                            @Html.DisplayFor(model => model.Project.Name)
                         </div>
                         <div class="col">
-                            <label asp-for="ProjectDescription"></label> <br />
-                            @Html.DisplayFor(model => model.ProjectDescription)
+                            <label asp-for="Project.Description"></label> <br />
+                            @Html.DisplayFor(model => model.Project.Description)
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <partial name="PartialViews/_CurrentPersonnelOnProject"/>
+            <partial name="PartialViews/_CurrentPersonnelOnProject" />
         </div>
         <div class="col">
             <partial name="PartialViews/_IssuesForProject" />
