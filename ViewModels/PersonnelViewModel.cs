@@ -8,6 +8,11 @@ namespace IssueTracker.MVC.ViewModels
 {
     public class PersonnelViewModel
     {
-        public Personnel Personnel { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserRole { get; set; }
+
+        
+        
     }
 }

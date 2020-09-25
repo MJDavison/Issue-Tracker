@@ -10,8 +10,9 @@ namespace IssueTracker.MVC.Models
 {
     public class ProjectViewModel
     {
-        public int id;
+        public int Id;
         public string Name;
+        public string Description;
 
         public List<Personnel> Personnels { get; set; }
     }

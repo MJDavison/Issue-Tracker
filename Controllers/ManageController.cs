@@ -26,7 +26,20 @@ namespace IssueTracker.MVC.Controllers
         {
             ViewData["Title"] = "Profile";
             Personnel user = await _userManager.GetUserAsync(User);
-            return View(user);
+
+            ViewModels.Account.AccountInfoViewModel userVM = new ViewModels.Account.AccountInfoViewModel()
+            {
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserRole = user.UserRole,
+
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                PhoneNumber = user.PhoneNumber
+
+            };
+            return View(userVM);
         }
     }
 }
