@@ -11,6 +11,7 @@ using System.Collections;
 using IssueTracker.MVC.Services;
 using IssueTracker.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using IssueTracker.MVC.ViewModels;
 
 namespace IssueTracker.MVC.Controllers
 {
@@ -56,17 +57,32 @@ namespace IssueTracker.MVC.Controllers
         {
 
             bool isOpen = IssueStatus();
-            List<Ticket> openIssues = await _context.Tickets.Where(x => x.IsSolved).ToListAsync();
-            List<Ticket> closedIssues = await _context.Tickets.Where(x => x.IsSolved == false).ToListAsync();
-            switch (isOpen)
+            //List<Ticket> openIssues = await _context.Tickets.Where(x => x.IsSolved).ToListAsync();
+            //List<Ticket> closedIssues = await _context.Tickets.Where(x => x.IsSolved == false).ToListAsync();
+            /*switch (isOpen)
             {
                 case true:
                     return View(openIssues);
                 case false:
                     return View(closedIssues);
                 
+            }*/
+            List<Ticket> Tickets = await _context.Tickets.ToListAsync();
+
+            List<TicketViewModel> TicketVMs = new List<TicketViewModel>();
+
+            foreach (Ticket ticket in Tickets)
+            {
+                TicketVMs.Add(new TicketViewModel()
+                {
+                    Id = ticket.Id,
+                    Title = ticket.Title,
+                    Comment = ticket.Comment,
+                    PostDate = ticket.PostDate,
+                    ProjectId = ticket.ProjectId
+                });
             }
-            
+            return View(TicketVMs);
         }
 
         public async Task<IActionResult> UpdateIssueStatus(int? id)

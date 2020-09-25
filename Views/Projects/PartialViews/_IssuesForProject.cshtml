@@ -14,7 +14,7 @@
                         <th><label asp-for="Project.Tickets.FirstOrDefault().Title"></label></th>
                         <th>Author</th>
                         <th>Developer</th>
-                        <th><label asp-for="Project.Tickets.FirstOrDefault().IsSolved"></label></th>
+
                         <th><label asp-for="Project.Tickets.FirstOrDefault().PostDate"></label></th>
                     </tr>
                 </thead>
@@ -50,17 +50,7 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => DeveloperUserName)
-                                </td>
-                                <td>
-                                    @if (item.IsSolved)
-                                    {
-                                        <span>Completed</span>
-                                    }
-                                    else
-                                    {
-                                        <span>New</span>
-                                    }
-                                </td>
+                                </td>                                
                                 <td>
                                     @Html.DisplayFor(modelItem=> item.PostDate)
                                 </td>

@@ -8,6 +8,15 @@ namespace IssueTracker.MVC.ViewModels
 {
     public class TicketViewModel
     {
-        public Ticket Ticket { get; set; }
+       
+        public int Id { get; set; }
+       
+        public string Title { get; set; }
+       
+        public string Comment { get; set; }
+       
+        public DateTime PostDate { get; set; }
+       
+        public int ProjectId { get; set; }
     }
 }

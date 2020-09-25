@@ -20,6 +20,25 @@
     <hr />
 
     <h4>2) Select Users for the Project/s, no selection will remove Users from the selected Project/s</h4>
+    <select asp-for="@Model.FirstOrDefault().Id" 
+            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
+    <select asp-for="@Model.FirstOrDefault().Id" 
+            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
+    <select multiple="multiple" asp-for="@Model.FirstOrDefault().Id" 
+            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
+    <select multiple="multiple" asp-for="@Model.FirstOrDefault().Id" 
+            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
+    <hr />
+    <h4>3) Assign those Users to the selected Project/s</h4>
+    <button class="btn btn-primary">Assign</button>
+    
+</div>
 
+<div>
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body"></div>
+        
+    </div>
 </div>
 

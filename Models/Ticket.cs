@@ -17,9 +17,6 @@ namespace IssueTracker.MVC.Models
         public string Comment { get; set; }
         [Required]
         public DateTime PostDate { get; set; }
-        [Required]
-        public bool IsSolved { get; set; }
-
         public int ProjectId { get; set; }
         public Project Project { get; set; }
         
