@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IssueTracker.MVC.ViewModels.ProjectViewModel>
+﻿@model IEnumerable<IssueTracker.MVC.Models.ProjectViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,10 +18,10 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Project.Name)
+                        @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Project.Description)
+                        @Html.DisplayNameFor(model => model.Description)
                     </th>
                     <th></th>
                 </tr>
@@ -31,21 +31,21 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Project.Name)
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Project.Description)
+                            @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
                             <ul>
                                 <li>
-                                    <a asp-controller="Ticket" asp-action="Create" asp-route-project-id="@item.Project.Id">Create Issue</a>
+                                    <a asp-controller="Ticket" asp-action="Create" asp-route-project-id="@item.Id">Create Issue</a>
                                 </li>
                                 <li>
-                                    <a asp-action="ManageUsers" asp-route-id="@item.Project.Id">Manage Users</a>
+                                    <a asp-action="ManageUsers" asp-route-id="@item.Id">Manage Users</a>
                                 </li>
                                 <li>
-                                    <a asp-action="Details" asp-route-id="@item.Project.Id">Details</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                                 </li>
                             </ul>
 

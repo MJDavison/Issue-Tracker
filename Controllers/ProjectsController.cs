@@ -36,7 +36,19 @@ namespace IssueTracker.MVC.Controllers
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Project.ToListAsync());
+            List<Project> projects = await _context.Project.ToListAsync();
+            List<ProjectViewModel> ProjectVMs = new List<ProjectViewModel>();
+            foreach (var project in projects)
+            {
+                ProjectVMs.Add(new ProjectViewModel()
+                {
+                    Id = project.Id,
+                    Name = project.Name,
+                    Description = project.Description                    
+                });
+            }
+
+            return View(ProjectVMs);
         }
 
         // GET: Projects/Details/5

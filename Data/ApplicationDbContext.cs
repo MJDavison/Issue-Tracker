@@ -7,6 +7,7 @@ using IssueTracker.MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using IssueTracker.MVC.ViewModels;
 
 
 
@@ -72,6 +73,9 @@ namespace IssueTracker.MVC.Data
             
             
         }
+
+
+        public DbSet<IssueTracker.MVC.ViewModels.TicketViewModel> TicketViewModel { get; set; }
         
     }
 }
