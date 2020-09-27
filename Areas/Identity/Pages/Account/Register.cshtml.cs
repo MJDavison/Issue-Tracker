@@ -89,14 +89,15 @@ namespace IssueTracker.MVC.Areas.Identity.Pages.Account
                     UserName = userName,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    UserRole = Enums.Roles.Submitter.ToString()
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     //Assign role here
-                    await _userManager.AddToRoleAsync(user, Enums.Roles.Submitter.ToString());
+                    await _userManager.AddToRoleAsync(user, Enums.Roles.Submitter.ToString());                    
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",

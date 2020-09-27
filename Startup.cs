@@ -16,6 +16,8 @@ using IssueTracker.MVC.Models;
 using Microsoft.Extensions.Hosting;
 using IssueTracker.MVC.Services;
 using IssueTracker.MVC.Services.Interfaces;
+using IssueTracker.MVC.Repository.Interfaces;
+using IssueTracker.MVC.Repository.Repositories;
 
 namespace IssueTracker.MVC
 {
@@ -51,6 +53,7 @@ namespace IssueTracker.MVC
             services.AddTransient<IProjectPersonnelService, ProjectPersonnelService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<ITicketPersonnelService, TicketPersonnelService>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
         }
 

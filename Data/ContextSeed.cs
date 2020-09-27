@@ -26,7 +26,9 @@ namespace IssueTracker.MVC.Data
                 FirstName = "Demo",
                 LastName = "Admin",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                UserRole = Enums.Roles.Admin.ToString()
+                
             };
 
             var DemoPM = new Personnel
@@ -36,7 +38,8 @@ namespace IssueTracker.MVC.Data
                 FirstName = "Demo",
                 LastName = "ProjectManager",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                UserRole = Enums.Roles.ProjectManager.ToString()
             };
 
             var DemoDev = new Personnel
@@ -46,7 +49,8 @@ namespace IssueTracker.MVC.Data
                 FirstName = "Demo",
                 LastName = "Developer",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                UserRole = Enums.Roles.Developer.ToString()
             };
 
             var DemoSubmitter = new Personnel
@@ -56,7 +60,8 @@ namespace IssueTracker.MVC.Data
                 FirstName = "Demo",
                 LastName = "Submitter",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                UserRole = Enums.Roles.Submitter.ToString()
             };
 
             if (userManager.Users.All(u => u.Id != DemoAdmin.Id))

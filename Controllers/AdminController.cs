@@ -9,22 +9,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IssueTracker.MVC.ViewModels.Admin;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using IssueTracker.MVC.Repository.Interfaces;
 
 namespace IssueTracker.MVC.Controllers
 {
     public class AdminController : Controller
     {
-
+         
         readonly ApplicationDbContext _context;
         readonly UserManager<Personnel> _userManager;
 
-        public AdminController(ApplicationDbContext context, UserManager<Personnel> userManager)
+        readonly IUserRepository _UserRepository;
+
+        public AdminController(ApplicationDbContext context, UserManager<Personnel> userManager, IUserRepository userRepository)
         {
             _context = context;
             _userManager = userManager;
+            _UserRepository = userRepository;
         }
 
-        
+
 
         public IActionResult Index()
         {
@@ -66,10 +70,13 @@ namespace IssueTracker.MVC.Controllers
                                   await _userManager.RemoveFromRolesAsync(user, roleNames);
                                   string rolename = Enum.GetName(typeof(Enums.Roles),mrViewModel.roleId);
                                   await _userManager.AddToRoleAsync(user, rolename);
-
+                                  //Change their RoleGroup
+                                  user.UserRole = rolename;
+                                  _UserRepository.Update(user);
+                                  _UserRepository.Save();                                
                               }          
-                }
-                return View(mrViewModel);
+                }                
+               return RedirectToAction("ManageRoles");
         }
 
         public async Task<IActionResult> ManageProjectUsers()
