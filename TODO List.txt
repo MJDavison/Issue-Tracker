@@ -1,0 +1,5 @@
+Create Edit and Details page for tickets.
+
+EDIT page must be able to edit the title and comment for the poster. Developer + can change the status of the ticket.
+DETAILS page must show the 
+Title, comment, Ticket Priority, Status and Type as well as it's parent project and the Developer assigned to it, if applicable.

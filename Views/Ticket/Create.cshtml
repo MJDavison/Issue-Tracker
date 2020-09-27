@@ -1,0 +1,52 @@
+@model IssueTracker.MVC.ViewModels.Tickets.CreateViewModel
+@using IssueTracker.MVC.Enums
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<Personnel> UserManager
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create Ticket</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="TicketCreationForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>                    
+            @{
+                int ProjectId = int.Parse(Context.Request.Query["project-id"]);
+            }
+            <input asp-for="ProjectId" type="hidden" value="@ProjectId">
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>            
+
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <select asp-for="Priority" asp-items="@Html.GetEnumSelectList<TicketPriority>()">
+                    <option>--Select--</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" asp-items="@Html.GetEnumSelectList<TicketType>()">
+                    <option>--Select--</option>
+                </select>
+            </div>
+
+            
+
+            <div class=" form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,5 @@
-﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
-@using IssueTracker.MVC.Models;
+﻿@using IssueTracker.MVC.ViewModels.Projects
+@model IssueTracker.MVC.ViewModels.Projects.CurrentPersonnelViewModel
 @inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
 <div class="card">
     <div class="card-header">
@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @{ foreach (var item in Model.Project.ProjectUsers) { 
+                @{ foreach (var item in Model.ProjectUsers) { 
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Personnel.UserName)

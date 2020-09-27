@@ -1,18 +1,35 @@
-﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
-@{
-    ViewData["Title"] = "ManageUsers";
-}
+﻿@model IssueTracker.MVC.ViewModels.Projects.ManageProjectUsersViewModel
+@using IssueTracker.MVC.Models;
+@inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
+@inject IssueTracker.MVC.Services.Interfaces.IProjectPersonnelService Personnel
+<div class="card">
+    <div class="card-header">
+        <h2>
+            Manage Project Users for: @Html.DisplayFor(model => model.Name)
+        </h2>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Projects" asp-action="AddPersonnelToProject" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <partial name="PartialViews/_ManageProjectUsers" />
-        </div>
-        <div class="col">
-            <partial name="PartialViews/_CurrentPersonnelOnProject"/>
-        </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+
+        <form asp-action="AddPersonnelToProject">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+             
+            
+            <select asp-for="ProjectUsers"
+                    asp-items="@Model.Personnels">
+                <option>--Select--</option>
+            </select>
+
+            <br /><input type="submit" value="Create" class="btn btn-primary" />
+        </form>
+
     </div>
 </div>
-
-<h2>ManageUsers</h2>
-

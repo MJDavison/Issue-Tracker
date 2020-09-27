@@ -1,4 +1,4 @@
-﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
+﻿@model IssueTracker.MVC.ViewModels.Projects.ProjectTicketsViewModel
 @using Microsoft.EntityFrameworkCore;
 @inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager;
 @inject IssueTracker.MVC.Data.ApplicationDbContext DBContext;
@@ -11,11 +11,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><label asp-for="Project.Tickets.FirstOrDefault().Title"></label></th>
+                        <th><label asp-for="Tickets.FirstOrDefault().Title"></label></th>
                         <th>Author</th>
                         <th>Developer</th>
 
-                        <th><label asp-for="Project.Tickets.FirstOrDefault().PostDate"></label></th>
+                        <th><label asp-for="Tickets.FirstOrDefault().PostDate"></label></th>
                     </tr>
                 </thead>
                 <tbody>

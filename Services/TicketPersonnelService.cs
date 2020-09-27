@@ -14,8 +14,7 @@ namespace IssueTracker.MVC.Services
     public class TicketPersonnelService : ITicketPersonnelService
     {
         private readonly ApplicationDbContext _context;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
+        
         public TicketPersonnelService(ApplicationDbContext context)
         {
             _context = context;

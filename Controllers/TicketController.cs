@@ -11,6 +11,7 @@ using System.Collections;
 using IssueTracker.MVC.Services;
 using IssueTracker.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using IssueTracker.MVC.ViewModels.Tickets;
 using IssueTracker.MVC.ViewModels;
 
 namespace IssueTracker.MVC.Controllers
@@ -20,6 +21,8 @@ namespace IssueTracker.MVC.Controllers
 
         private readonly ITicketService _ticketService;
         private readonly ITicketPersonnelService _ticketPersonnel;
+
+        private readonly IProjectService _projectService;
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<Personnel> _userManager;
@@ -29,12 +32,13 @@ namespace IssueTracker.MVC.Controllers
         [BindProperty]
         public List<TicketUser> TicketUsers { get; set; }
 
-        public TicketController(ITicketService ticketService, ITicketPersonnelService ticketPersonnel, ApplicationDbContext context, UserManager<Personnel> userManager)
+        public TicketController(ITicketService ticketService, ITicketPersonnelService ticketPersonnel, ApplicationDbContext context, UserManager<Personnel> userManager, IProjectService projectService)
         {
             _ticketService = ticketService;
             _ticketPersonnel = ticketPersonnel;
             _context = context;
             _userManager = userManager;
+            _projectService = projectService;
         }
 
         public bool IssueStatus()
@@ -74,8 +78,7 @@ namespace IssueTracker.MVC.Controllers
             foreach (Ticket ticket in Tickets)
             {
                 TicketVMs.Add(new TicketViewModel()
-                {
-                    Id = ticket.Id,
+                {                
                     Title = ticket.Title,
                     Comment = ticket.Comment,
                     PostDate = ticket.PostDate,
@@ -159,10 +162,16 @@ namespace IssueTracker.MVC.Controllers
         }
 
         // GET: Issue/Create
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             var personnel = await _ticketPersonnel.GetAll();
             ViewData["PersonnelList"] = new SelectList(personnel, "Id", "UserName");
+            string stringProjectID = "";
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["project-id"]))
+                stringProjectID = HttpContext.Request.Query["project-id"].ToString();            
+            
+            int projectId = int.Parse(stringProjectID);
+            ViewData["project-id"] = projectId;
             return View();
         }
 
@@ -171,21 +180,33 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(CreateViewModel ticket)
         {
-            Ticket.TicketUsers[0].Personnel = await _userManager.FindByIdAsync(Ticket.TicketUsers[0].PersonnelId);
-            Ticket.AuthorId = Ticket.TicketUsers[0].PersonnelId;
-            Ticket.Project = await _context.Project.FindAsync(Ticket.ProjectId);
+            List<TicketUser> ListOfUsers = new List<TicketUser>();
+            Personnel Author = await _userManager.FindByNameAsync(User.Identity.Name);
+            ListOfUsers.Add(new TicketUser(){
+                Personnel = Author,
+                PersonnelId = Author.Id
+            });
+
+            Project project = await _projectService.Get(ticket.ProjectId);
             
-            /*TODO: Currently, the TicketUser value goes straight into nothingness.*/
-            if (ModelState.IsValid)
-            {
-                await _ticketService.Add(Ticket);
-                return RedirectToAction("Details", "Projects", new { id = Ticket.Project.Id });
-            }
-            var personnel = await _ticketPersonnel.GetAll();
-            ViewData["PersonnelList"] = new SelectList(personnel, "Id", "UserName", Ticket.AuthorId);
-            return View(Ticket);
+            
+            Ticket createdTicket = new Ticket(){                
+                Title = ticket.Title,
+                Comment = ticket.Comment,
+                PostDate = DateTime.UtcNow,
+                ProjectId = ticket.ProjectId,
+                Project = project,
+                AuthorId = Author.Id,
+                TicketUsers = ListOfUsers,        
+                Priority = ticket.Priority,
+                Type = ticket.Type,
+                Status = Enums.TicketStatus.Open
+            };            
+
+            await _ticketService.Add(createdTicket);
+            return RedirectToAction("Index");
         }
 
         // GET: Issue/Edit/5

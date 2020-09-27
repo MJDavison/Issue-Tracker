@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using IssueTracker.MVC.Services;
 using IssueTracker.MVC.Services.Interfaces;
 
+using IssueTracker.MVC.ViewModels.Projects;
+
 namespace IssueTracker.MVC.Controllers
 {
     public class ProjectsController : Controller
@@ -59,6 +61,8 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
+            
+
             var project = await _context.Project
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -68,11 +72,16 @@ namespace IssueTracker.MVC.Controllers
             {
                 return NotFound();
             }
+            DetailsViewModel viewModel = new DetailsViewModel(){
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description
+            };
 
 
             //project = await FillLists(project);
 
-            return View(project);
+            return View(viewModel);
         }
 
         // GET: Projects/Create
@@ -204,13 +213,29 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
+            
 
-            //project = await FillLists(project);
+            
             var personnel = await _projectPersonnel.GetAll();
-            ViewData["PersonnelList"] = new SelectList(personnel, "Id", "UserName");
+            List<SelectListItem> personnelList = new List<SelectListItem>();
+            foreach (Personnel person in personnel)
+            {
+                personnelList.Add(new SelectListItem(){
+                    Text= person.UserName,
+                    Value = person.Id,
+                });
+            }
+
+            ManageProjectUsersViewModel MPUViewModel = new ManageProjectUsersViewModel(){
+                Id = project.Id,
+                Name = project.Name,
+                Personnels = personnelList,
+                ProjectUsers = project.ProjectUsers
+            };
+            
 
 
-            return View(project);
+            return View(MPUViewModel);
         }
 
         public async Task<ActionResult> AddPersonnelToProject(int? id)

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 namespace IssueTracker.MVC.ViewModels
 {
     public class TicketViewModel
-    {
-       
+    {            
         public int Id { get; set; }
-       
         public string Title { get; set; }
        
         public string Comment { get; set; }

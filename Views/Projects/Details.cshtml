@@ -1,5 +1,8 @@
-﻿@model IssueTracker.MVC.ViewModels.ProjectViewModel
-
+﻿@model IssueTracker.MVC.ViewModels.Projects.DetailsViewModel
+@using IssueTracker.MVC.ViewModels.Projects
+@using IssueTracker.MVC.Data
+@using Microsoft.EntityFrameworkCore;
+@inject ApplicationDbContext dbContext;
 @{
     ViewData["Title"] = "Details";
 }
@@ -8,19 +11,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2>Details for @Html.DisplayFor(model => model.Project.Name)</h2>
-                    <a asp-action="Edit" asp-route-id="@Model.Project.Id">Edit</a> |
+                    <h2>Details for @Html.DisplayFor(model => model.Name)</h2>
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
                     <a asp-action="Index">Back to List</a>
+                    <a asp-action="ManageUsers" asp-route-id="@Model.Id">Manage Users</a>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <label asp-for="Project.Name"></label> <br />
-                            @Html.DisplayFor(model => model.Project.Name)
+                            <label asp-for="Name"></label> <br />
+                            <h3>@Html.DisplayFor(model => model.Name)</h3>
                         </div>
                         <div class="col">
-                            <label asp-for="Project.Description"></label> <br />
-                            @Html.DisplayFor(model => model.Project.Description)
+                            <label asp-for="Description"></label> <br />
+                            <h3>@Html.DisplayFor(model => model.Description)</h3>
                         </div>
                     </div>
                 </div>
@@ -29,10 +33,27 @@
     </div>
     <div class="row">
         <div class="col">
-            <partial name="PartialViews/_CurrentPersonnelOnProject" />
+            @{
+                Project currentProject = dbContext.Project.Include(p=>p.ProjectUsers).Include(p=>p.Tickets).Where(p=>p.Id == Model.Id).FirstOrDefault();
+                CurrentPersonnelViewModel CPViewModel = new CurrentPersonnelViewModel(){
+                    Id = currentProject.Id,
+                    Name = currentProject.Name,
+                    Description = currentProject.Description,     
+                    ProjectUsers = currentProject.ProjectUsers               
+                };
+            }
+            @{await Html.RenderPartialAsync("PartialViews/_CurrentPersonnelOnProject", @CPViewModel);}
+           <!-- <partial name="PartialViews/_CurrentPersonnelOnProject" />-->
         </div>
         <div class="col">
-            <partial name="PartialViews/_IssuesForProject" />
+            @{
+                ProjectTicketsViewModel PTViewModel = new ProjectTicketsViewModel(){
+                    Id = currentProject.Id,
+                    Tickets = currentProject.Tickets
+                };
+            }
+            @{await Html.RenderPartialAsync("PartialViews/_IssuesForProject", @PTViewModel);}
+            <!--<partial name="" />-->
         </div>
     </div>
 </div>

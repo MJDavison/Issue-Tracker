@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using IssueTracker.MVC.Enums;
 
 namespace IssueTracker.MVC.Models
 {
@@ -24,6 +25,11 @@ namespace IssueTracker.MVC.Models
         public string AuthorId { get; set; }
         [DisplayName("In List")]
         public List<TicketUser> TicketUsers { get; set; }
+
+        public TicketPriority Priority {get; set;}
+        public TicketType Type { get; set; }
+
+        public TicketStatus Status { get; set; }
 
         
         

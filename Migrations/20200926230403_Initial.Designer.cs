@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IssueTracker.MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200826003612_Replaced Personnel ID (int) with Author ID (string)")]
-    partial class ReplacedPersonnelIDintwithAuthorIDstring
+    [Migration("20200926230403_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -144,9 +144,6 @@ namespace IssueTracker.MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSolved")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
@@ -177,6 +174,30 @@ namespace IssueTracker.MVC.Migrations
                     b.HasIndex("TicketId");
 
                     b.ToTable("TicketUser");
+                });
+
+            modelBuilder.Entity("IssueTracker.MVC.ViewModels.TicketViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

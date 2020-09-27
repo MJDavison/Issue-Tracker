@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IssueTracker.MVC.Migrations
 {
-    public partial class AddedChildrenforTicketandProjectUser : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +12,7 @@ namespace IssueTracker.MVC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false)
                 },
@@ -34,6 +33,22 @@ namespace IssueTracker.MVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketViewModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Comment = table.Column<string>(nullable: true),
+                    PostDate = table.Column<DateTime>(nullable: false),
+                    ProjectId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketViewModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,13 +84,12 @@ namespace IssueTracker.MVC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
                     Comment = table.Column<string>(nullable: false),
                     PostDate = table.Column<DateTime>(nullable: false),
-                    IsSolved = table.Column<bool>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false),
-                    PersonnelId = table.Column<int>(nullable: false)
+                    AuthorId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,7 +107,7 @@ namespace IssueTracker.MVC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -138,7 +152,7 @@ namespace IssueTracker.MVC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -307,6 +321,9 @@ namespace IssueTracker.MVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "TicketUser");
+
+            migrationBuilder.DropTable(
+                name: "TicketViewModel");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
