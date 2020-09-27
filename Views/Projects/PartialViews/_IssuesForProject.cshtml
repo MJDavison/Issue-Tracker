@@ -33,14 +33,13 @@
                         It is however stored under 'TicketUsers'*/
                         string AuthorUserName = UserManager.FindByIdAsync(item.AuthorId).Result.UserName;
                         string DeveloperUserName = "";
-                        if(item.TicketUsers.Count > 1)
-                        {
-                            DeveloperUserName = item.TicketUsers[1].Personnel.UserName;
-                        }
-                        else
-                        {
+                        if(item.DeveloperId != null){
+                            DeveloperUserName = UserManager.FindByIdAsync(item.DeveloperId).Result.UserName;
+                        }else{
                             DeveloperUserName = "Unassigned";
                         }
+                        
+                        
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelitem=> item.Title)

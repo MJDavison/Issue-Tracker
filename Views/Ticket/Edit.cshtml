@@ -1,36 +1,86 @@
 @model IssueTracker.MVC.ViewModels.Tickets.EditViewModel
-
+@using IssueTracker.MVC.Enums
 @{
-    ViewData["Title"] = "Edit";
+ViewData["Title"] = "Edit";
 }
 
 <h2>Edit</h2>
 
 <h4>Project</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="container">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Comment" class="control-label"></label>
-                <input asp-for="Comment" class="form-control" />
-                <span asp-validation-for="Comment" class="text-danger"></span>
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Comment" class="control-label"></label>
+                    <input asp-for="Comment" class="form-control" />
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label asp-for="ProjectId"></label><br />
+                <select asp-for="ProjectId"
+                asp-items="Model.Projects">
+                    <option>--Select--</option>
+                </select>
             </div>
-        </form>
+            <div class="col-6">
+                <label asp-for="AssignedDeveloperId"></label><br />
+                <select asp-for="AssignedDeveloperId"
+                asp-items="Model.Developers">
+                    <option>--Select--</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label asp-for="Priority"></label><br />
+                <select asp-for="Priority"
+                asp-items="Html.GetEnumSelectList<TicketPriority>()">
+                    <option>--Select--</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label asp-for="Status"></label><br />
+                <select asp-for="Status"
+                asp-items="Html.GetEnumSelectList<TicketStatus>()">
+                    <option>--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label asp-for="Type"></label><br />
+                <select asp-for="Type"
+                asp-items="Html.GetEnumSelectList<TicketType>()">
+                    <option>--Select--</option>
+                </select>
+            </div>
+            <div class="col-6">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</form>

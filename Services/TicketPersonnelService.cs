@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IssueTracker.MVC.Data.Enums;
+using IssueTracker.MVC.Enums;
 
 namespace IssueTracker.MVC.Services
 {

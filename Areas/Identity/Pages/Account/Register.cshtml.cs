@@ -96,7 +96,7 @@ namespace IssueTracker.MVC.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
                     //Assign role here
-                    await _userManager.AddToRoleAsync(user, Data.Enums.Roles.Submitter.ToString());
+                    await _userManager.AddToRoleAsync(user, Enums.Roles.Submitter.ToString());
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",

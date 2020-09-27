@@ -1,5 +1,6 @@
 using System;
 
+
 namespace IssueTracker.MVC.ViewModels.Tickets
 {
     using IssueTracker.MVC.Enums;
@@ -14,6 +15,11 @@ namespace IssueTracker.MVC.ViewModels.Tickets
 
         public TicketStatus Status { get; set; }
 
-        public string Project { get; set; }
+        public string ProjectName { get; set; }
+
+        public string AuthorId { get; set; }
+        public string DeveloperId { get; set; }
+
+              
     }
 }

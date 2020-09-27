@@ -3,6 +3,8 @@
 @using IssueTracker.MVC.Data
 @using Microsoft.EntityFrameworkCore;
 @inject ApplicationDbContext dbContext;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<Personnel> UserManager;
 @{
     ViewData["Title"] = "Details";
 }
@@ -11,12 +13,17 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2>Details for @Html.DisplayFor(model => model.Title)</h2>
+                    <h2>Details for @Html.DisplayFor(model => model.Title) #@Html.DisplayFor(model=>model.Id) </h2>
                     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                    <a asp-action="Index">Back to List</a>
-                    <a asp-action="ManageUsers" asp-route-id="@Model.Id">Manage Users</a>
+                    <a asp-action="Index">Back to List</a>                    
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label asp-for="ProjectName"></label><br />
+                            <h3>@Html.DisplayFor(model => model.ProjectName)</h3>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col">
                             <label asp-for="Title"></label> <br />
@@ -25,6 +32,45 @@
                         <div class="col">
                             <label asp-for="Comment"></label> <br />
                             <h3>@Html.DisplayFor(model => model.Comment)</h3>
+                        </div>
+                        <hr />
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <label asp-for="Priority"></label><br />
+                                    <h3>@Html.DisplayFor(model => model.Priority)</h3>
+                                </div>
+                                <div class="col">
+                                    <label asp-for="Type"></label><br />
+                                    <h3>@Html.DisplayFor(model => model.Type)</h3>
+                                </div>
+                                <div class="col">
+                                    <label asp-for="Status"></label><br />
+                                    <h3>@Html.DisplayFor(model => model.Status)</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label asp-for="AuthorId"></label><br>
+                                    @{
+                                        var AuthorUsername = UserManager.FindByIdAsync(Model.AuthorId).Result.UserName;
+                                    }
+                                    <h3>@AuthorUsername</h3>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="DeveloperId"></label><br>
+                                    @{
+                                        var DeveloperUsername = "";
+                                        if(Model.DeveloperId != null){
+                                            DeveloperUsername = UserManager.FindByIdAsync(Model.DeveloperId).Result.UserName;
+                                        }else{
+                                            DeveloperUsername = "Unassigned";
+                                        }                                       
+                                    }
+                                    <h3>@DeveloperUsername</h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

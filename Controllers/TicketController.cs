@@ -27,6 +27,8 @@ namespace IssueTracker.MVC.Controllers
 
         private readonly UserManager<Personnel> _userManager;
 
+        
+
         [BindProperty]
         public Ticket Ticket { get; set; }
         [BindProperty]
@@ -78,7 +80,8 @@ namespace IssueTracker.MVC.Controllers
             foreach (Ticket ticket in Tickets)
             {
                 TicketVMs.Add(new TicketViewModel()
-                {                
+                {   
+                    Id = ticket.Id,             
                     Title = ticket.Title,
                     Comment = ticket.Comment,
                     PostDate = ticket.PostDate,
@@ -106,9 +109,8 @@ namespace IssueTracker.MVC.Controllers
 
         }
 
-
         // GET: Issue/Details/5
-        public async Task<IActionResult> Discussion(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             
             if (id == null)
@@ -116,49 +118,28 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
-            var issueModel = await _context.Tickets
+            var currentTicket = await _context.Tickets.Include(t=>t.Project)
                 .FirstOrDefaultAsync(m =>m.Id == id);
-            if (issueModel == null)
+            if (currentTicket == null)
             {
                 return NotFound();
             }
 
             
+            DetailsViewModel dViewModel = new DetailsViewModel(){
+                Id = currentTicket.Id,
+                Title = currentTicket.Title,
+                Comment = currentTicket.Comment,
+                Priority = currentTicket.Priority,
+                Type = currentTicket.Type,
+                Status = currentTicket.Status,
+                ProjectName = currentTicket.Project.Name,
+                AuthorId = currentTicket.AuthorId,
+                DeveloperId = currentTicket.DeveloperId,           
+            };
+            
 
-            return View(issueModel);
-        }
-        // POST: Issue/Details/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Discussion(int id, [Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Ticket issueModel)
-        {
-            int issueModelId = issueModel.Id;
-            if (id != issueModelId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(issueModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!IssueModelExists(issueModelId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Discussion");
-            }
-            return View(issueModel);
+            return View(dViewModel);
         }
 
         // GET: Issue/Create
@@ -198,8 +179,8 @@ namespace IssueTracker.MVC.Controllers
                 PostDate = DateTime.UtcNow,
                 ProjectId = ticket.ProjectId,
                 Project = project,
-                AuthorId = Author.Id,
-                TicketUsers = ListOfUsers,        
+                AuthorId = Author.Id,                 
+                //TicketUsers = ListOfUsers,        
                 Priority = ticket.Priority,
                 Type = ticket.Type,
                 Status = Enums.TicketStatus.Open
@@ -217,12 +198,50 @@ namespace IssueTracker.MVC.Controllers
                 return NotFound();
             }
 
-            var issueModel = await _context.Tickets.FindAsync(id);
-            if (issueModel == null)
+            Ticket currentTicket = await _context.Tickets.FindAsync(id);
+            if (currentTicket == null)
             {
                 return NotFound();
             }
-            return View(issueModel);
+
+            IList<SelectListItem> ProjectsList = new List<SelectListItem>();
+            IList<SelectListItem> DeveloperList = new List<SelectListItem>();
+
+            IList<Personnel> DeveloperPersonnel =await  _userManager.GetUsersInRoleAsync(Enums.Roles.Developer.ToString());
+            IList<Project> ActiveProjects = await _context.Project.ToListAsync();
+
+            foreach (Project project in ActiveProjects)
+            {
+                ProjectsList.Add(new SelectListItem(){
+                    Value = project.Id.ToString(),
+                    Text = project.Name,
+                });
+            }
+
+            foreach (Personnel developer in DeveloperPersonnel)
+            {
+                DeveloperList.Add(new SelectListItem(){
+                    Value = developer.Id,
+                    Text=developer.UserName
+                });
+            }
+
+            EditViewModel eViewModel = new EditViewModel()
+            {
+                Id = currentTicket.Id,
+                Title = currentTicket.Title,
+                Comment = currentTicket.Comment,
+                AssignedDeveloperId = currentTicket.DeveloperId,
+                ProjectId = currentTicket.ProjectId,
+                Priority = currentTicket.Priority,
+                Type = currentTicket.Type,
+                Status = currentTicket.Status,
+                Projects = ProjectsList,
+                Developers = DeveloperList,
+
+                
+            };
+            return View(eViewModel);
         }
 
         // POST: Issue/Edit/5
@@ -230,9 +249,9 @@ namespace IssueTracker.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IssueId,UserId,Title,Comment,AuthorUserName,PostDate,IsOpen")] Ticket issueModel)
+        public async Task<IActionResult> Edit(int id, EditViewModel editedTicket)
         {
-            int ticketId = issueModel.Id;
+            int ticketId = editedTicket.Id;
             if (id != ticketId)
             {
                 return NotFound();
@@ -240,14 +259,36 @@ namespace IssueTracker.MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                Ticket updatedTicket = null;
+                
                 try
                 {
-                    _context.Update(issueModel);
-                    await _context.SaveChangesAsync();
+
+                    try
+                    {
+                        updatedTicket = new Ticket(){
+                            Id = editedTicket.Id,
+                            Title = editedTicket.Title,
+                            Comment = editedTicket.Comment,
+                            ProjectId = editedTicket.ProjectId,
+                            DeveloperId = editedTicket.AssignedDeveloperId,
+                            Priority = editedTicket.Priority,
+                            Status = editedTicket.Status,
+                            Type = editedTicket.Type,                    
+
+                        };
+                    }
+                    catch (System.Exception)
+                    {
+                        
+                        throw;
+                    }
+                    await _ticketService.Update(updatedTicket);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IssueModelExists(ticketId))
+                    if (!TicketExists(ticketId))
                     {
                         return NotFound();
                     }
@@ -258,39 +299,40 @@ namespace IssueTracker.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(issueModel);
+            return View(editedTicket);
         }
 
         // GET: Issue/Delete/5
         public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
+        {        
+            if(id == null){
                 return NotFound();
             }
 
-            var issueModel = await _context.Tickets
-                .FirstOrDefaultAsync(m =>m.Id == id);
-            if (issueModel == null)
-            {
+            Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(t=>t.Id == id);
+            if(ticket == null){
                 return NotFound();
             }
 
-            return View(issueModel);
+            DeleteViewModel dViewModel = new DeleteViewModel(){
+                Id = ticket.Id,
+                Title = ticket.Title
+            };
+            return View(dViewModel);
         }
 
         // POST: Issue/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var issueModel = await _context.Tickets.FindAsync(id);
-            _context.Tickets.Remove(issueModel);
+            Ticket ticket = await _context.Tickets.FindAsync(id);
+            _context.Tickets.Remove(ticket);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool IssueModelExists(int id)
+        private bool TicketExists(int id)
         {
             return _context.Tickets.Any(e => e.Id == id);
         }

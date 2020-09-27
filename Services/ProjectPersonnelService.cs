@@ -1,5 +1,5 @@
 ﻿using IssueTracker.MVC.Data;
-using IssueTracker.MVC.Data.Enums;
+using IssueTracker.MVC.Enums;
 using IssueTracker.MVC.Models;
 using IssueTracker.MVC.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

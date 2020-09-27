@@ -1,0 +1,40 @@
+@model IEnumerable<Personnel>
+@inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
+<div class="card">
+    <div class="card-header">
+        <h2>
+            Selected Personnel
+        </h2>
+        <p>
+            Current Users on this Project.
+        </p>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ foreach (var item in Model) { 
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserRole)
+                    </td>
+                </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

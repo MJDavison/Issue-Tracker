@@ -23,8 +23,9 @@ namespace IssueTracker.MVC.Models
         
         
         public string AuthorId { get; set; }
+        public string DeveloperId{get; set;}
         [DisplayName("In List")]
-        public List<TicketUser> TicketUsers { get; set; }
+        //public List<TicketUser> TicketUsers { get; set; }
 
         public TicketPriority Priority {get; set;}
         public TicketType Type { get; set; }

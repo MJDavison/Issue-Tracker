@@ -72,8 +72,19 @@ namespace IssueTracker.MVC.Services
             
         public async Task<Ticket> Update(Ticket ticket)
         {
-            _context.Entry(ticket).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            using (_context){
+                _context.Tickets.Attach(ticket);
+                _context.Entry(ticket).Property(x=>x.Title).IsModified=true;
+                _context.Entry(ticket).Property(x=>x.Comment).IsModified=true;
+                _context.Entry(ticket).Property(x=>x.ProjectId).IsModified=true;
+                _context.Entry(ticket).Property(x=>x.DeveloperId).IsModified=true;
+                _context.Entry(ticket).Property(x=>x.Priority).IsModified=true;
+                _context.Entry(ticket).Property(x=>x.Type).IsModified=true;
+                _context.Entry(ticket).Property(x=>x.Status).IsModified=true;
+                await _context.SaveChangesAsync();
+            }
+            //_context.Entry(ticket).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
             return ticket;
         }
     }

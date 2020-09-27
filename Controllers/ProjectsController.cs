@@ -66,7 +66,7 @@ namespace IssueTracker.MVC.Controllers
             var project = await _context.Project
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            ViewBag.Tickets = _context.Tickets.Where(p => p.ProjectId == id).Include(p=>p.TicketUsers);
+            ViewBag.Tickets = _context.Tickets.Where(p => p.ProjectId == id); //.Include(p=>p.TicketUsers)
 
             if (project == null)
             {
