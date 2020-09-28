@@ -11,6 +11,6 @@ namespace IssueTracker.MVC.Repository.Interfaces
         void Insert(T obj);
         void Update(T obj);
         void Delete(object Id);
-        void Save();
+        Task Save();
     }
 }

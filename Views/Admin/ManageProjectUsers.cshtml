@@ -1,44 +1,70 @@
-﻿@model IEnumerable<Project>
-@using IssueTracker.MVC.Models;
+﻿@model ManageProjectUsersViewModel
+@using IssueTracker.MVC.ViewModels.Admin;
 @inject Microsoft.AspNetCore.Identity.UserManager<Personnel> UserManager
 @inject Microsoft.AspNetCore.Identity.RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> RoleManager
+@inject IssueTracker.MVC.Repository.Interfaces.IProjectRepository ProjectRepo
+@inject IssueTracker.MVC.Repository.Interfaces.IProjectUsersRepository _ProjectUserRepo
 @{
     ViewData["Title"] = "ManageProjectUsers";
 }
 
-@{ 
-    var Projects = Model.ToList();
-    var Project = Projects.FirstOrDefault();
-}
-<div>
-    <h4>1) Select 1 or more Projects</h4>
-    <select multiple="multiple"
-            asp-for="@Model.FirstOrDefault().Id"
-            asp-items="@(new SelectList(Model.ToList(),"Id","Name"))">
-    </select>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <form asp-action="ManageProjectUsers">
+                <h4>1) Select 1 or more Projects</h4>
+                <div class="row">
+                    <div class="col">
+                        <select multiple="multiple" asp-for="ProjectIds" asp-items="Model.Projects"
+                            class="form-control"></select>
+                    </div>
+                    <div class="col"></div>
+                </div>
 
-    <hr />
 
-    <h4>2) Select Users for the Project/s, no selection will remove Users from the selected Project/s</h4>
-    <select asp-for="@Model.FirstOrDefault().Id" 
-            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
-    <select asp-for="@Model.FirstOrDefault().Id" 
-            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
-    <select multiple="multiple" asp-for="@Model.FirstOrDefault().Id" 
-            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
-    <select multiple="multiple" asp-for="@Model.FirstOrDefault().Id" 
-            asp-items="@(new SelectList(Model.ToList(),"Id", "Name"))"></select>
-    <hr />
-    <h4>3) Assign those Users to the selected Project/s</h4>
-    <button class="btn btn-primary">Assign</button>
-    
-</div>
 
-<div>
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body"></div>
-        
+                <hr />
+
+                <h4>2) Select Users for the Project/s, no selection will remove Users from the selected
+                    Project/s</h4>
+
+                <div class="row">
+                    <div class="col">
+                        <select asp-for="AdminId" asp-items="Model.Admins" class="form-control"></select>
+                    </div>
+                    <div class="col">
+                        <select asp-for="ProjectManagerId" asp-items="Model.ProjectManagers"
+                            class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <select multiple="multiple" asp-for="DeveloperIds" asp-items="Model.Developers"
+                            class="form-control"></select>
+                    </div>
+                    <div class="col">
+                        <select multiple="multiple" asp-for="SubmitterIds" asp-items="Model.Submitters"
+                            class="form-control"></select>
+                    </div>
+                </div>
+
+                <hr />
+                <h4>3) Assign those Users to the selected Project/s</h4>
+                <button class="btn btn-primary">Assign</button>
+            </form>
+        </div>
+        <div class="col">
+            @{
+            IEnumerable<Project> AllProjects = await ProjectRepo.GetAll();
+                List<_AllProjectUsersViewModel> _AllProjectUsers = new List<_AllProjectUsersViewModel>();
+                        foreach (var item in AllProjects)
+                        {
+                        _AllProjectUsers.Add(_ProjectUserRepo.GetProjectUsers(item.Id));
+                        }
+                        await Html.RenderPartialAsync("PartialViews/_AllUsersAssignedToProjects",
+                        _AllProjectUsers);
+                        }
+        </div>
     </div>
 </div>
-

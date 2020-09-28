@@ -42,7 +42,7 @@ namespace IssueTracker.MVC.Repository.Repositories
             T existing = table.Find(Id);
             table.Remove(existing);
         }
-        public async void Save()
+        public async Task Save()
         {
            await _context.SaveChangesAsync();
         }

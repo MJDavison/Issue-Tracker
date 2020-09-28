@@ -54,6 +54,8 @@ namespace IssueTracker.MVC
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<ITicketPersonnelService, TicketPersonnelService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IProjectUsersRepository, ProjectUsersRepository>();
 
         }
 
@@ -85,16 +87,6 @@ namespace IssueTracker.MVC
                 endpoints.MapControllerRoute(
                     "default", "{controller=Home}/{action=Index}/{id?}");
             });
-            /*
-             app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-             */
-
-
         }
     }
 }

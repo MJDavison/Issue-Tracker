@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using IssueTracker.MVC.Areas.Identity.Pages.Account.Manage;
 using IssueTracker.MVC.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;

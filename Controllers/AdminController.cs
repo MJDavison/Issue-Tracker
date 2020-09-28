@@ -20,12 +20,14 @@ namespace IssueTracker.MVC.Controllers
         readonly UserManager<Personnel> _userManager;
 
         readonly IUserRepository _UserRepository;
+        readonly IProjectRepository _ProjectRepository;
 
-        public AdminController(ApplicationDbContext context, UserManager<Personnel> userManager, IUserRepository userRepository)
+        public AdminController(ApplicationDbContext context, UserManager<Personnel> userManager, IUserRepository userRepository, IProjectRepository projectRepository)
         {
             _context = context;
             _userManager = userManager;
             _UserRepository = userRepository;
+            _ProjectRepository = projectRepository;
         }
 
 
@@ -73,18 +75,78 @@ namespace IssueTracker.MVC.Controllers
                                   //Change their RoleGroup
                                   user.UserRole = rolename;
                                   _UserRepository.Update(user);
-                                  _UserRepository.Save();                                
+                                  await _UserRepository.Save();                                
                               }          
                 }                
                return RedirectToAction("ManageRoles");
         }
-
+        [HttpGet]
         public async Task<IActionResult> ManageProjectUsers()
         {
-            List<Project> projects = await _context.Project.ToListAsync();           
-            
+            IList<Project> projects = await _context.Project.ToListAsync();   
+            IList<Personnel> personnels = (IList<Personnel>)await _UserRepository.GetAll();
 
-            return View(projects);
+            var projectListItems = projects.Select(p=> new SelectListItem {
+                Text = p.Name, Value = p.Id.ToString()}).ToList();
+
+            var adminListItems = personnels.Where(u=>u.UserRole == "Admin").Select(u=> new SelectListItem{
+                Text = u.UserName, Value = u.Id}).ToList();
+
+            var developerListItems = personnels.Where(u=>u.UserRole == "Developer").Select(u=> new SelectListItem{
+                Text = u.UserName, Value = u.Id}).ToList();
+
+            var projectManagerListItems = personnels.Where(u=>u.UserRole == "Project Manager").Select(u=> new SelectListItem{
+                Text = u.UserName, Value = u.Id}).ToList();
+
+            var submitterListItems = personnels.Where(u=>u.UserRole == "Submitter").Select(u=> new SelectListItem{
+                Text = u.UserName, Value = u.Id}).ToList();
+
+            ManageProjectUsersViewModel mpuViewModel = new ManageProjectUsersViewModel(){
+                Projects = projectListItems,
+                Admins = adminListItems,
+                Developers = developerListItems,
+                ProjectManagers = projectManagerListItems,
+                Submitters = submitterListItems
+            };            
+            return View(mpuViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ManageProjectUsers(ManageProjectUsersViewModel mpuViewModel){
+            //Assign the users (Ids stored in mpuViewModel) to all the projects selected.
+
+            foreach (int id in mpuViewModel.ProjectIds)
+            {
+                Project currentProject = await _context.Project.Include(p=>p.ProjectUsers).Where(p=>p.Id ==id).FirstOrDefaultAsync();
+                currentProject.ProjectUsers.Add(new ProjectUser{
+                    Personnel = _UserRepository.GetByID(mpuViewModel.AdminId),
+                    PersonnelId = mpuViewModel.AdminId
+                });
+
+                    currentProject.ProjectUsers.Add(new ProjectUser{
+                    Personnel = _UserRepository.GetByID(mpuViewModel.ProjectManagerId),
+                    PersonnelId = mpuViewModel.ProjectManagerId
+                });
+
+                foreach (string item in mpuViewModel.DeveloperIds)
+                {
+                    currentProject.ProjectUsers.Add(new ProjectUser{
+                    Personnel = _UserRepository.GetByID(item),
+                    PersonnelId = item
+                });
+                }
+                
+                foreach (string item in mpuViewModel.SubmitterIds)
+                {
+                    currentProject.ProjectUsers.Add(new ProjectUser{
+                    Personnel = _UserRepository.GetByID(item),
+                    PersonnelId = item
+                    });
+                }
+                    _ProjectRepository.UpdateProjectUsers(currentProject);
+                   await _ProjectRepository.Save();
+            }
+           return RedirectToAction("ManageProjectUsers");
         }
     }
 }

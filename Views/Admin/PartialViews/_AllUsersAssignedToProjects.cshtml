@@ -1,0 +1,80 @@
+@model IEnumerable<_AllProjectUsersViewModel>
+@using IssueTracker.MVC.ViewModels.Admin
+@inject Microsoft.AspNetCore.Identity.UserManager<Personnel> _UserManager
+@inject IssueTracker.MVC.Repository.Interfaces.IProjectRepository _projectRepo
+
+<div class="card">
+    <div class="card-header">
+        <h2>
+            Selected Personnel
+        </h2>
+        <p>
+            Current Users on this Project.
+        </p>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Admin</th>
+                    <th>Project Manager</th>
+                    <th>Developers</th>
+                    <th>Testers</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ foreach (var item in Model) { 
+                <tr>
+                    <td>
+                        @{
+                            string projectName = _projectRepo.GetByIDWithPU(item.ProjectId).Name;
+                        }
+                        @projectName
+                    </td>
+                    <td>
+                        @{
+                            string AdminUsername = "";
+                            if(item.AdminId != ""){
+                                 AdminUsername = _UserManager.FindByIdAsync(item.AdminId).Result.UserName;
+                            } else{
+                                AdminUsername = "Unassigned";
+                            }                                                    
+                        }
+                        @AdminUsername                        
+                    </td>
+                    <td>
+                        @{
+                            string PMUsername = "";
+                            if(item.ProjectManagerId != ""){
+                                 PMUsername = _UserManager.FindByIdAsync(item.ProjectManagerId).Result.UserName;
+                            } else{
+                                PMUsername = "Unassigned";
+                            }
+                        }
+                        @PMUsername
+                    </td>      
+                    <td>
+                        <div class="container-fluid">
+                            @if(item.DeveloperIds.Any()){
+                                string UserName = "";
+                                for (int i = 0; i < item.DeveloperIds.Count(); i++)
+                                {
+                                    <div class="row">
+                                       @{
+                                           UserName = _UserManager.FindByIdAsync(item.DeveloperIds[i]).Result.UserName;
+                                       }
+                                       @UserName
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </td>                  
+                </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
