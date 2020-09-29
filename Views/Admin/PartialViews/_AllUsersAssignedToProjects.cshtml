@@ -70,6 +70,23 @@
                             }
                         </div>
                     </td>                  
+                    <td>
+                        <div class="container-fluid">
+                            @if(item.SubmitterIds.Any()){
+                                string UserName = "";
+                                for (int i = 0; i < item.SubmitterIds.Count(); i++)
+                                {
+                                    <div class="row">
+                                       @{
+                                           UserName = _UserManager.FindByIdAsync(item.SubmitterIds[i]).Result.UserName;
+                                       }
+                                       @UserName
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </td>                  
+
                 </tr>
                     }
                 }

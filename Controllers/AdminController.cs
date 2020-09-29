@@ -117,33 +117,31 @@ namespace IssueTracker.MVC.Controllers
 
             foreach (int id in mpuViewModel.ProjectIds)
             {
+                List<string> userIds = new List<string>();
                 Project currentProject = await _context.Project.Include(p=>p.ProjectUsers).Where(p=>p.Id ==id).FirstOrDefaultAsync();
-                currentProject.ProjectUsers.Add(new ProjectUser{
-                    Personnel = _UserRepository.GetByID(mpuViewModel.AdminId),
-                    PersonnelId = mpuViewModel.AdminId
-                });
-
-                    currentProject.ProjectUsers.Add(new ProjectUser{
-                    Personnel = _UserRepository.GetByID(mpuViewModel.ProjectManagerId),
-                    PersonnelId = mpuViewModel.ProjectManagerId
-                });
+                    userIds.Add(mpuViewModel.AdminId);
+                    userIds.Add(mpuViewModel.ProjectManagerId);
+                    
 
                 foreach (string item in mpuViewModel.DeveloperIds)
                 {
-                    currentProject.ProjectUsers.Add(new ProjectUser{
-                    Personnel = _UserRepository.GetByID(item),
-                    PersonnelId = item
-                });
+                    userIds.Add(item);                            
                 }
+                
                 
                 foreach (string item in mpuViewModel.SubmitterIds)
                 {
+                    userIds.Add(item);
+                }
+                currentProject.ProjectUsers.Clear(); 
+                foreach(string Id in userIds){                   
+                    
                     currentProject.ProjectUsers.Add(new ProjectUser{
-                    Personnel = _UserRepository.GetByID(item),
-                    PersonnelId = item
+                        PersonnelId = Id
                     });
                 }
-                    _ProjectRepository.UpdateProjectUsers(currentProject);
+                
+                   _ProjectRepository.UpdateProjectUsers(currentProject);
                    await _ProjectRepository.Save();
             }
            return RedirectToAction("ManageProjectUsers");

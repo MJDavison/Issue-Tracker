@@ -1,5 +1,2 @@
-Create Edit and Details page for tickets.
-
-EDIT page must be able to edit the title and comment for the poster. Developer + can change the status of the ticket.
-DETAILS page must show the 
-Title, comment, Ticket Priority, Status and Type as well as it's parent project and the Developer assigned to it, if applicable.
+Resolve error in AdminController. This occurs when trying to select multiple developers. It will likely happen when trying to select multiple testers too.
+"InvalidOperationException: The instance of entity type 'ProjectUser' cannot be tracked because another instance with the same key value for {'PersonnelId', 'ProjectId'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values."

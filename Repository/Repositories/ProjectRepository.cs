@@ -22,6 +22,7 @@ namespace IssueTracker.MVC.Repository.Repositories
         {
              table.Attach(project);
             _context.Entry(project).Collection(u=>u.ProjectUsers).IsModified = true;
+            
         }
 
         new public async Task<IEnumerable<Project>> GetAll()
